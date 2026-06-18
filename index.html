@@ -114,7 +114,7 @@
             100% { filter: brightness(1.2) drop-shadow(0 0 40px #ff85a2); }
         }
 
-        /* IMÁGENES FLOTANDO EN HTML PURO */
+        /* IMÁGENES FLOTANDO */
         .img-flotante {
             position: fixed;
             z-index: 30;
@@ -123,9 +123,9 @@
             object-fit: cover;
             pointer-events: none;
             opacity: 0.85;
-            transition: transform 0.1s linear;
             width: 100px;
             height: 100px;
+            transition: none;
         }
 
         /* FRASES ORBITANDO */
@@ -307,7 +307,7 @@
 
 <script>
     // ================================================================
-    //  CONFIGURACIÓN
+    //  CONFIGURACIÓN - HÍBRIDO (Three.js + HTML)
     // ================================================================
     const CONFIG = {
         nombre: "May",
@@ -340,8 +340,6 @@
         },
         colores: ["#FFB6C1", "#FF6B81", "#FFD1DC", "#FFDAB9", "#FF85A2"],
         canciones: ["cancion1.mp3", "cancion2.mp3", "cancion3.mp3", "cancion4.mp3"],
-        
-        // ⭐ 28 IMÁGENES - CON RUTA RELATIVA (HTML PURO) ⭐
         imagenes: [
             "foto1.webp", "foto2.webp", "foto3.webp", "foto4.webp",
             "foto5.webp", "foto6.webp", "foto7.webp", "foto8.webp",
@@ -351,7 +349,6 @@
             "foto21.webp", "foto22.webp", "foto23.webp", "foto24.webp",
             "foto25.webp", "foto26.webp", "foto27.webp", "foto28.webp"
         ],
-        
         velocidadOrbita: 0.002,
         cantidadParticulas: 3500,
         duracionCarga: 2.5,
@@ -466,7 +463,7 @@
     }
 
     // ================================================================
-    //  INICIALIZAR GALAXIA (Three.js para el corazón + HTML para imágenes)
+    //  INICIALIZAR GALAXIA
     // ================================================================
     function iniciarGalaxia() {
         document.getElementById('mensajeCentral').style.display = 'block';
@@ -474,7 +471,7 @@
         const container = document.getElementById('galaxyCanvas');
         container.classList.add('active');
 
-        // THREE.JS PARA EL CORAZÓN
+        // ===== THREE.JS =====
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0x0f0510);
 
@@ -491,7 +488,7 @@
         crearCorazonParticulas();
         efectoNacimiento();
 
-        // HTML PARA IMÁGENES FLOTANDO
+        // ===== HTML =====
         crearImagenesFlotando();
         crearFrases();
         crearPalabrasClave();
@@ -505,7 +502,7 @@
     }
 
     // ================================================================
-    //  CORAZÓN DE PARTÍCULAS (Three.js) - FLUIDO 3D
+    //  CORAZÓN (Three.js)
     // ================================================================
     function crearCorazonParticulas() {
         const geometria = new THREE.BufferGeometry();
@@ -557,7 +554,7 @@
     }
 
     // ================================================================
-    //  EFECTO NACIMIENTO DE ESTRELLAS (Three.js)
+    //  EFECTO NACIMIENTO (Three.js)
     // ================================================================
     function efectoNacimiento() {
         const count = 300;
@@ -623,7 +620,7 @@
     }
 
     // ================================================================
-    //  IMÁGENES FLOTANDO EN HTML PURO (con ruta relativa)
+    //  IMÁGENES FLOTANDO (HTML)
     // ================================================================
     function crearImagenesFlotando() {
         const imagenes = CONFIG.imagenes;
@@ -652,7 +649,6 @@
             imgElement.style.height = size + 'px';
             imgElement.style.left = centerX + 'px';
             imgElement.style.top = centerY + 'px';
-            imgElement.style.transformOrigin = `-${radios[idx]}px center`;
             imgElement.style.borderRadius = '16px';
             imgElement.style.boxShadow = `0 0 20px rgba(255,107,129,0.3), 0 0 0 2px rgba(255,182,193,0.3)`;
             imgElement.style.objectFit = 'cover';
@@ -666,7 +662,6 @@
                 fallback.style.height = size + 'px';
                 fallback.style.left = centerX + 'px';
                 fallback.style.top = centerY + 'px';
-                fallback.style.transformOrigin = `-${radios[idx]}px center`;
                 fallback.style.borderRadius = '16px';
                 fallback.style.background = CONFIG.colores[idx % CONFIG.colores.length];
                 fallback.style.boxShadow = `0 0 20px rgba(255,107,129,0.3), 0 0 0 2px rgba(255,182,193,0.3)`;
@@ -695,7 +690,7 @@
     }
 
     // ================================================================
-    //  FRASES ORBITANDO
+    //  FRASES ORBITANDO (HTML)
     // ================================================================
     function crearFrases() {
         const frases = CONFIG.frases;
@@ -710,9 +705,6 @@
             div.textContent = texto;
             div.style.left = centerX + 'px';
             div.style.top = centerY + 'px';
-            div.style.transformOrigin = `-${radio}px center`;
-            div.dataset.angulo = angulo;
-            div.dataset.radio = radio;
             document.body.appendChild(div);
 
             div.addEventListener('click', (e) => {
@@ -723,12 +715,17 @@
                 }
             });
 
-            frasesObjetos.push({ elemento: div, angulo: angulo, radio: radio });
+            frasesObjetos.push({ 
+                elemento: div, 
+                angulo: angulo, 
+                radio: radio,
+                velocidad: 0.003 + Math.random() * 0.002
+            });
         });
     }
 
     // ================================================================
-    //  PALABRAS CLAVE
+    //  PALABRAS CLAVE (HTML)
     // ================================================================
     function crearPalabrasClave() {
         const palabras = Object.keys(CONFIG.palabrasClave);
@@ -1015,7 +1012,7 @@
     }
 
     // ================================================================
-    //  ANIMACIÓN PRINCIPAL (Three.js para el corazón + HTML para imágenes)
+    //  ANIMACIÓN PRINCIPAL (Aquí está la magia)
     // ================================================================
     function animar() {
         requestAnimationFrame(animar);
@@ -1049,7 +1046,7 @@
             corazon.geometria.attributes.position.needsUpdate = true;
         }
 
-        // ===== IMÁGENES FLOTANDO (HTML) =====
+        // ===== IMÁGENES FLOTANDO (HTML) - SE MUEVEN =====
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
         const time = Date.now() / 1000;
@@ -1063,9 +1060,9 @@
             img.elemento.style.top = centerY + 'px';
         });
 
-        // ===== FRASES (HTML) =====
+        // ===== FRASES (HTML) - SE MUEVEN =====
         frasesObjetos.forEach((f) => {
-            const angulo = f.angulo + time * 0.003;
+            const angulo = f.angulo + time * f.velocidad;
             const x = Math.cos(angulo) * f.radio;
             const y = Math.sin(angulo) * f.radio * 0.7;
             f.elemento.style.transform = `translate(${x}px, ${y}px)`;
@@ -1073,7 +1070,7 @@
             f.elemento.style.top = centerY + 'px';
         });
 
-        // ===== EFECTO VIENTO (partículas del corazón se apartan del mouse) =====
+        // ===== EFECTO VIENTO =====
         if (particulas.length > 0) {
             const pos = particulas[0].geometria.attributes.position.array;
             const targetX = mouse.x * 0.3;
