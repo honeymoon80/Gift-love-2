@@ -6,7 +6,6 @@
     <title>Para May - Galaxia de Amor</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        /* ===== TODOS LOS ESTILOS ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
@@ -680,15 +679,36 @@
         colores: ["#FFB6C1", "#FF6B81", "#FFD1DC", "#FFDAB9", "#FF85A2"],
         canciones: ["cancion1.mp3", "cancion2.mp3", "cancion3.mp3", "cancion4.mp3"],
         
-        // ⭐ 28 IMÁGENES FLOTANDO CON RUTA DE GITHUB PAGES ⭐
+        // ⭐ 28 IMÁGENES CON URL COMPLETA DE GITHUB PAGES ⭐
         imagenesFlotando: [
-            "foto1.webp", "foto2.webp", "foto3.webp", "foto4.webp",
-            "foto5.webp", "foto6.webp", "foto7.webp", "foto8.webp",
-            "foto9.webp", "foto10.webp", "foto11.webp", "foto12.webp",
-            "foto13.webp", "foto14.webp", "foto15.webp", "foto16.webp",
-            "foto17.webp", "foto18.webp", "foto19.webp", "foto20.webp",
-            "foto21.webp", "foto22.webp", "foto23.webp", "foto24.webp",
-            "foto25.webp", "foto26.webp", "foto27.webp", "foto28.webp"
+            "https://honeymoon80.github.io/Gift-love-2/img/foto1.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto2.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto3.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto4.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto5.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto6.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto7.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto8.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto9.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto10.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto11.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto12.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto13.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto14.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto15.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto16.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto17.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto18.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto19.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto20.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto21.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto22.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto23.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto24.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto25.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto26.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto27.webp",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto28.webp"
         ],
         
         velocidadOrbita: 0.0015,
@@ -993,19 +1013,14 @@
     }
 
     // ================================================================
-    //  IMÁGENES FLOTANDO - CON RUTA DE GITHUB PAGES
+    //  IMÁGENES FLOTANDO - CON URLs COMPLETAS
     // ================================================================
     function cargarTexturasFlotando() {
         const imagenes = CONFIG.imagenesFlotando;
         const loader = new THREE.TextureLoader();
         let cargadas = 0;
         
-        // ⭐ USA LA RUTA DE GITHUB PAGES ⭐
-        // IMPORTANTE: Cambia "regalo-may" por el nombre de tu nuevo repositorio
-        const baseURL = 'https://honeymoon80.github.io/Gift-love-2/img/';
-        
-        imagenes.forEach((img) => {
-            const ruta = baseURL + img;
+        imagenes.forEach((ruta) => {
             console.log('Cargando:', ruta);
             
             loader.load(
