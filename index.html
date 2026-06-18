@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Para May - Galaxia de Amor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -14,8 +15,6 @@
             height: 100vh;
             user-select: none;
         }
-
-        /* PANTALLA DE APERTURA */
         #splash {
             position: fixed;
             inset: 0;
@@ -27,7 +26,11 @@
             background: linear-gradient(145deg, #ffe0e8 0%, #ffdab9 100%);
             transition: opacity 0.8s ease, visibility 0.8s ease;
         }
-        #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #splash.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
         #splash h1 {
             font-size: clamp(2.2rem, 10vw, 4.5rem);
             font-weight: 300;
@@ -59,7 +62,6 @@
             100% { box-shadow: 0 0 20px #ff8da1aa; transform: scale(1); }
         }
 
-        /* CARGA */
         #loadingScreen {
             position: fixed;
             inset: 0;
@@ -99,21 +101,25 @@
             gap: 2rem;
         }
         #heartLoader {
-            width: 100px; height: 100px;
+            width: 100px;
+            height: 100px;
             position: relative;
             cursor: pointer;
         }
         #heartLoader canvas {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             display: block;
         }
         #progressCircle {
-            width: 140px; height: 140px;
+            width: 140px;
+            height: 140px;
             position: relative;
         }
         #progressCircle svg {
             transform: rotate(-90deg);
-            width: 140px; height: 140px;
+            width: 140px;
+            height: 140px;
         }
         #progressCircle circle {
             fill: none;
@@ -148,46 +154,14 @@
             font-weight: 300;
         }
 
-        /* GALAXIA EN HTML PURO */
-        #galaxia {
+        #galaxyCanvas {
             position: fixed;
             inset: 0;
             z-index: 1;
             display: none;
-            background: #0f0510;
-            overflow: hidden;
         }
-        #galaxia.active { display: block; }
+        #galaxyCanvas.active { display: block; }
 
-        /* CORAZÓN DE PARTÍCULAS EN CSS */
-        .corazon-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            animation: latido 1.5s ease-in-out infinite;
-        }
-        @keyframes latido {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            14% { transform: translate(-50%, -50%) scale(1.08); }
-            28% { transform: translate(-50%, -50%) scale(1); }
-            42% { transform: translate(-50%, -50%) scale(1.08); }
-            70% { transform: translate(-50%, -50%) scale(1); }
-        }
-        .particula {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            animation: orbitar 8s linear infinite;
-        }
-        @keyframes orbitar {
-            0% { transform: rotate(0deg) translateX(150px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
-        }
-
-        /* MENSAJE CENTRAL */
         #mensajeCentral {
             position: fixed;
             z-index: 35;
@@ -240,33 +214,270 @@
             100% { filter: brightness(1.2) drop-shadow(0 0 40px #ff85a2); }
         }
 
-        /* FRASES ORBITANDO */
-        .frase {
+        .lluvia-item {
             position: fixed;
-            z-index: 40;
-            color: #ffd1dc;
-            font-size: 1.1rem;
-            font-weight: 500;
-            text-shadow: 0 0 20px #ff85a2, 0 0 40px #ff6b81;
-            cursor: pointer;
-            background: rgba(20, 10, 15, 0.4);
-            backdrop-filter: blur(6px);
-            padding: 8px 18px;
-            border-radius: 40px;
+            z-index: 20;
+            pointer-events: none;
+            font-size: 1.5rem;
+            animation: caerLluvia linear forwards;
+            opacity: 0.9;
+            text-shadow: 0 0 20px rgba(255, 107, 129, 0.5);
+        }
+        @keyframes caerLluvia {
+            0% { transform: translateY(-100px) rotate(0deg) scale(0.5); opacity: 0; }
+            10% { opacity: 0.9; transform: translateY(0px) rotate(10deg) scale(1); }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(110vh) rotate(720deg) scale(0.3); opacity: 0; }
+        }
+
+        #musicPlayer {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 100;
+            background: rgba(30, 10, 20, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
             border: 1px solid #ffb6c155;
+            min-width: 200px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        #musicPlayer.minimizado {
+            min-width: 50px;
+            border-radius: 40px;
+            padding: 6px 12px;
+        }
+        #musicPlayer.minimizado .controles,
+        #musicPlayer.minimizado .info-cancion,
+        #musicPlayer.minimizado .volumen-slider,
+        #musicPlayer.minimizado .barra-progreso {
+            display: none;
+        }
+        .player-btn {
+            background: none;
+            border: none;
+            color: #ffb6c1;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 4px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .player-btn:hover { background: #ffb6c133; color: #ff8da1; }
+        .info-cancion { font-size: 0.8rem; color: #ffd1dc; white-space: nowrap; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+        .barra-progreso {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 100px;
+        }
+        .barra-progreso input[type="range"] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            background: #3a1a2a;
+            border-radius: 4px;
+            outline: none;
+        }
+        .barra-progreso input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff8da1;
+            cursor: pointer;
+            box-shadow: 0 0 10px #ff6b81;
+        }
+        .tiempo { font-size: 0.7rem; color: #ffb6c1; min-width: 36px; }
+        .volumen-slider {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .volumen-slider input[type="range"] {
+            width: 50px;
+            height: 4px;
+            -webkit-appearance: none;
+            background: #3a1a2a;
+            border-radius: 4px;
+        }
+        .volumen-slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff8da1;
+            cursor: pointer;
+        }
+        .toggle-min {
+            background: none;
+            border: none;
+            color: #ffb6c1;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+        .lista-canciones {
+            background: rgba(20, 10, 15, 0.9);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 8px;
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            border: 1px solid #ffb6c155;
+            min-width: 150px;
+        }
+        .lista-canciones.active { display: flex; }
+        .lista-canciones button {
+            background: none;
+            border: none;
+            color: #ffd1dc;
+            padding: 6px 12px;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
             transition: 0.2s;
+            font-size: 0.85rem;
+        }
+        .lista-canciones button:hover { background: #ffb6c122; color: #fff; }
+
+        .mensaje-emergente {
+            position: fixed;
+            z-index: 200;
+            background: linear-gradient(145deg, #fff5f7, #ffe8ed);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 28px 32px;
+            max-width: 420px;
+            min-width: 240px;
+            box-shadow: 0 20px 60px rgba(255, 107, 129, 0.3), 0 0 0 2px #ffb6c1, 0 0 0 4px #ffd1dc, 0 0 40px rgba(255, 182, 193, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            color: #5a2d3a;
+            font-size: 1rem;
+            line-height: 1.7;
+            animation: aparecerCarta 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: auto;
-            white-space: nowrap;
-            animation: orbitarFrases 12s linear infinite;
+            font-weight: 500;
+            letter-spacing: 0.3px;
         }
-        .frase:hover { transform: scale(1.1); background: rgba(255, 200, 210, 0.2); }
-
-        @keyframes orbitarFrases {
-            0% { transform: rotate(0deg) translateX(250px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(250px) rotate(-360deg); }
+        .mensaje-emergente::before {
+            content: '💖';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            font-size: 2rem;
+            animation: flotarCorazon 2s ease-in-out infinite;
+        }
+        .mensaje-emergente::after {
+            content: '✨';
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            font-size: 1.8rem;
+            animation: flotarCorazon 2s ease-in-out infinite 0.5s;
+        }
+        @keyframes flotarCorazon {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(10deg); }
+        }
+        @keyframes aparecerCarta {
+            from { opacity: 0; transform: scale(0.7) translateY(30px) rotate(-5deg); }
+            to { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); }
+        }
+        .mensaje-emergente .cerrar {
+            position: absolute;
+            top: 8px;
+            right: 14px;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: #a0526b;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 182, 193, 0.2);
+        }
+        .mensaje-emergente .cerrar:hover {
+            background: rgba(255, 107, 129, 0.3);
+            transform: rotate(90deg);
+        }
+        .mensaje-emergente .titulo-msg {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ff6b81;
+            margin-bottom: 8px;
+            display: block;
+            text-align: center;
+        }
+        .mensaje-emergente .contenido-msg {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .mensaje-emergente .texto-msg {
+            color: #5a2d3a;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .mensaje-emergente .polaroid {
+            width: 120px;
+            height: 120px;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 4px 15px rgba(255, 107, 129, 0.3), 0 0 0 3px #fff, 0 0 0 4px #ffb6c1;
+            transition: transform 0.3s ease;
+            background: #fff;
+            padding: 4px;
+        }
+        .mensaje-emergente .polaroid:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+        .mensaje-emergente .polaroid-container {
+            position: relative;
+            display: inline-block;
+        }
+        .mensaje-emergente .polaroid-container::after {
+            content: '📸';
+            position: absolute;
+            bottom: -8px;
+            right: -8px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            padding: 2px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .mensaje-emergente .decoracion {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 8px;
+            font-size: 1.2rem;
         }
 
-        /* PALABRAS CLAVE */
         .palabra-clave {
             position: fixed;
             z-index: 50;
@@ -291,135 +502,6 @@
             box-shadow: 0 0 30px #ff6b8166;
         }
 
-        /* IMÁGENES FLOTANDO */
-        .img-flotante {
-            position: fixed;
-            z-index: 30;
-            border-radius: 16px;
-            box-shadow: 0 0 20px rgba(255, 107, 129, 0.3), 0 0 0 2px rgba(255, 182, 193, 0.3);
-            object-fit: cover;
-            animation: orbitarImagenes 15s linear infinite;
-            opacity: 0.85;
-            pointer-events: none;
-            width: 100px;
-            height: 100px;
-        }
-        @keyframes orbitarImagenes {
-            0% { transform: rotate(0deg) translateX(200px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
-        }
-
-        /* LLUVIA */
-        .lluvia-item {
-            position: fixed;
-            z-index: 20;
-            pointer-events: none;
-            font-size: 1.5rem;
-            animation: caerLluvia linear forwards;
-            opacity: 0.9;
-            text-shadow: 0 0 20px rgba(255, 107, 129, 0.5);
-        }
-        @keyframes caerLluvia {
-            0% { transform: translateY(-100px) rotate(0deg) scale(0.5); opacity: 0; }
-            10% { opacity: 0.9; transform: translateY(0px) rotate(10deg) scale(1); }
-            90% { opacity: 0.9; }
-            100% { transform: translateY(110vh) rotate(720deg) scale(0.3); opacity: 0; }
-        }
-
-        /* REPRODUCTOR */
-        #musicPlayer {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            z-index: 100;
-            background: rgba(30, 10, 20, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 60px;
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #fff;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-            border: 1px solid #ffb6c155;
-            min-width: 200px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        #musicPlayer.minimizado { min-width: 50px; border-radius: 40px; padding: 6px 12px; }
-        #musicPlayer.minimizado .controles, #musicPlayer.minimizado .info-cancion,
-        #musicPlayer.minimizado .volumen-slider, #musicPlayer.minimizado .barra-progreso { display: none; }
-        .player-btn {
-            background: none; border: none; color: #ffb6c1; font-size: 1.5rem;
-            cursor: pointer; padding: 4px; width: 36px; height: 36px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        }
-        .player-btn:hover { background: #ffb6c133; color: #ff8da1; }
-        .info-cancion { font-size: 0.8rem; color: #ffd1dc; white-space: nowrap; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
-        .barra-progreso { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 100px; }
-        .barra-progreso input[type="range"] {
-            width: 100%; height: 4px; -webkit-appearance: none;
-            background: #3a1a2a; border-radius: 4px; outline: none;
-        }
-        .barra-progreso input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 12px; height: 12px;
-            border-radius: 50%; background: #ff8da1; cursor: pointer;
-            box-shadow: 0 0 10px #ff6b81;
-        }
-        .tiempo { font-size: 0.7rem; color: #ffb6c1; min-width: 36px; }
-        .volumen-slider { display: flex; align-items: center; gap: 6px; }
-        .volumen-slider input[type="range"] { width: 50px; height: 4px; -webkit-appearance: none; background: #3a1a2a; border-radius: 4px; }
-        .volumen-slider input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; border-radius: 50%; background: #ff8da1; cursor: pointer; }
-        .toggle-min { background: none; border: none; color: #ffb6c1; font-size: 1.2rem; cursor: pointer; padding: 0 4px; }
-        .lista-canciones {
-            background: rgba(20, 10, 15, 0.9); backdrop-filter: blur(8px); border-radius: 16px;
-            padding: 8px; position: absolute; bottom: 70px; right: 0; display: none;
-            flex-direction: column; gap: 4px; border: 1px solid #ffb6c155; min-width: 150px;
-        }
-        .lista-canciones.active { display: flex; }
-        .lista-canciones button { background: none; border: none; color: #ffd1dc; padding: 6px 12px; text-align: left; cursor: pointer; border-radius: 8px; transition: 0.2s; font-size: 0.85rem; }
-        .lista-canciones button:hover { background: #ffb6c122; color: #fff; }
-
-        /* MENSAJE EMERGENTE */
-        .mensaje-emergente {
-            position: fixed;
-            z-index: 200;
-            background: linear-gradient(145deg, #fff5f7, #ffe8ed);
-            backdrop-filter: blur(12px);
-            border-radius: 28px;
-            padding: 28px 32px;
-            max-width: 420px;
-            min-width: 240px;
-            box-shadow: 0 20px 60px rgba(255, 107, 129, 0.3), 0 0 0 2px #ffb6c1, 0 0 0 4px #ffd1dc, 0 0 40px rgba(255, 182, 193, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            color: #5a2d3a;
-            font-size: 1rem;
-            line-height: 1.7;
-            animation: aparecerCarta 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            pointer-events: auto;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-        .mensaje-emergente::before { content: '💖'; position: absolute; top: -15px; left: -15px; font-size: 2rem; animation: flotarCorazon 2s ease-in-out infinite; }
-        .mensaje-emergente::after { content: '✨'; position: absolute; bottom: -15px; right: -15px; font-size: 1.8rem; animation: flotarCorazon 2s ease-in-out infinite 0.5s; }
-        @keyframes flotarCorazon { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(10deg); } }
-        @keyframes aparecerCarta { from { opacity: 0; transform: scale(0.7) translateY(30px) rotate(-5deg); } to { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); } }
-        .mensaje-emergente .cerrar {
-            position: absolute; top: 8px; right: 14px; background: none; border: none;
-            font-size: 1.4rem; color: #a0526b; cursor: pointer; transition: 0.2s;
-            width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            background: rgba(255, 182, 193, 0.2);
-        }
-        .mensaje-emergente .cerrar:hover { background: rgba(255, 107, 129, 0.3); transform: rotate(90deg); }
-        .mensaje-emergente .titulo-msg { font-size: 1.2rem; font-weight: 700; color: #ff6b81; margin-bottom: 8px; display: block; text-align: center; }
-        .mensaje-emergente .contenido-msg { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        .mensaje-emergente .texto-msg { color: #5a2d3a; font-size: 0.95rem; line-height: 1.6; text-align: center; }
-        .mensaje-emergente .polaroid { width: 120px; height: 120px; border-radius: 16px; object-fit: cover; box-shadow: 0 4px 15px rgba(255, 107, 129, 0.3), 0 0 0 3px #fff, 0 0 0 4px #ffb6c1; transition: transform 0.3s ease; background: #fff; padding: 4px; }
-        .mensaje-emergente .polaroid:hover { transform: scale(1.05) rotate(-2deg); }
-        .mensaje-emergente .polaroid-container { position: relative; display: inline-block; }
-        .mensaje-emergente .polaroid-container::after { content: '📸'; position: absolute; bottom: -8px; right: -8px; font-size: 1.2rem; background: rgba(255, 255, 255, 0.9); border-radius: 50%; padding: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .mensaje-emergente .decoracion { display: flex; gap: 6px; justify-content: center; margin-top: 8px; font-size: 1.2rem; }
-
         @media (max-width: 600px) {
             #musicPlayer { bottom: 12px; right: 12px; padding: 6px 10px; min-width: 150px; gap: 6px; }
             .player-btn { font-size: 1.2rem; width: 30px; height: 30px; }
@@ -433,7 +515,10 @@
             #mensajeCentral .linea2 { font-size: clamp(1.2rem, 3.5vw, 1.8rem); }
             #mensajeCentral .linea3 { font-size: clamp(0.9rem, 2.5vw, 1.3rem); }
             #mensajeCentral .linea4 { font-size: clamp(1.4rem, 4vw, 2rem); }
-            .mensaje-emergente::before, .mensaje-emergente::after { font-size: 1.4rem; }
+            .mensaje-emergente::before,
+            .mensaje-emergente::after {
+                font-size: 1.4rem;
+            }
             .mensaje-emergente::before { top: -12px; left: -12px; }
             .mensaje-emergente::after { bottom: -12px; right: -12px; }
         }
@@ -441,13 +526,11 @@
 </head>
 <body>
 
-<!-- ===== PANTALLA DE APERTURA ===== -->
 <div id="splash">
     <h1 id="tituloSplash">Para May, con todo mi amor</h1>
     <button id="btnAbrir">❤️ Abrir regalo</button>
 </div>
 
-<!-- ===== CARGA ===== -->
 <div id="loadingScreen">
     <div class="stars"></div>
     <div class="loader-content">
@@ -465,24 +548,15 @@
     </div>
 </div>
 
-<!-- ===== GALAXIA ===== -->
-<div id="galaxia">
-    <!-- Corazón de partículas (CSS puro) -->
-    <div class="corazon-container" id="corazonContainer"></div>
+<div id="galaxyCanvas"></div>
 
-    <!-- Mensaje central -->
-    <div id="mensajeCentral">
-        <span class="linea1">♥︎ Te AMO mushísimo ♥︎</span>
-        <span class="linea2">mi bella niñita siempre PERFECTA</span>
-        <span class="linea3">de todito mi korashon</span>
-        <span class="linea4">HEHE (≧▽≦)/ ♥︎</span>
-    </div>
-
-    <!-- Frases y palabras clave se crean con JavaScript -->
-    <!-- Imágenes flotando se crean con JavaScript -->
+<div id="mensajeCentral">
+    <span class="linea1">♥︎ Te AMO mushísimo ♥︎</span>
+    <span class="linea2">mi bella niñita siempre PERFECTA</span>
+    <span class="linea3">de todito mi korashon</span>
+    <span class="linea4">HEHE (≧▽≦)/ ♥︎</span>
 </div>
 
-<!-- ===== REPRODUCTOR ===== -->
 <div id="musicPlayer">
     <button class="toggle-min" id="toggleMinimizar">◀</button>
     <span class="info-cancion" id="nombreCancion">🎵 Sin canción</span>
@@ -504,7 +578,7 @@
 
 <script>
     // ================================================================
-    //  CONFIGURACIÓN CENTRALIZADA
+    //  CONFIGURACIÓN CON URLs DE GITHUB PAGES (SÍ FUNCIONAN EN THREE.JS)
     // ================================================================
     const CONFIG = {
         nombre: "May",
@@ -553,23 +627,62 @@
             }
         },
         palabrasClave: {
-            "Recuerdos": "Nuestro primer viaje juntos, tus risas, tus abrazos y cada momento que compartimos. Atesoro cada segundo a tu lado, son mi tesoro más preciado. 📸💕",
-            "Promesas": "Te prometo amarte siempre, en las buenas y en las malas, hoy y por toda la eternidad. Mi amor por ti es infinito, May. 🤝💖",
-            "Futuro": "Imagino un futuro lleno de días soleados contigo, May. Nuestras historias, nuestros sueños, nuestras aventuras... todo juntos. 🌅✨",
-            "Eternidad": "El amor que siento por ti trasciende el tiempo y el espacio. Eres mi eternidad, mi todo, mi siempre. ♾️💫",
-            "Aventura": "Cada día a tu lado es una nueva aventura llena de magia, descubrimientos y amor incondicional. Contigo, la vida es una hermosa travesía. 🗺️❤️"
+            "Recuerdos": {
+                texto: "Nuestro primer viaje juntos, tus risas, tus abrazos y cada momento que compartimos. Atesoro cada segundo a tu lado, son mi tesoro más preciado. 📸💕",
+                img: "msg_foto9.webp"
+            },
+            "Promesas": {
+                texto: "Te prometo amarte siempre, en las buenas y en las malas, hoy y por toda la eternidad. Mi amor por ti es infinito, May. 🤝💖",
+                img: "msg_foto10.webp"
+            },
+            "Futuro": {
+                texto: "Imagino un futuro lleno de días soleados contigo, May. Nuestras historias, nuestros sueños, nuestras aventuras... todo juntos. 🌅✨",
+                img: "msg_foto11.webp"
+            },
+            "Eternidad": {
+                texto: "El amor que siento por ti trasciende el tiempo y el espacio. Eres mi eternidad, mi todo, mi siempre. ♾️💫",
+                img: "msg_foto12.webp"
+            },
+            "Aventura": {
+                texto: "Cada día a tu lado es una nueva aventura llena de magia, descubrimientos y amor incondicional. Contigo, la vida es una hermosa travesía. 🗺️❤️",
+                img: "msg_foto13.webp"
+            }
         },
         colores: ["#FFB6C1", "#FF6B81", "#FFD1DC", "#FFDAB9", "#FF85A2"],
         canciones: ["cancion1.mp3", "cancion2.mp3", "cancion3.mp3", "cancion4.mp3"],
-        imagenes: [
-            "foto1.webp", "foto2.webp", "foto3.webp", "foto4.webp",
-            "foto5.webp", "foto6.webp", "foto7.webp", "foto8.webp",
-            "foto9.webp", "foto10.webp", "foto11.webp", "foto12.webp",
-            "foto13.webp", "foto14.webp", "foto15.webp", "foto16.webp",
-            "foto17.webp", "foto18.webp", "foto19.webp", "foto20.webp",
-            "foto21.webp", "foto22.webp", "foto23.webp", "foto24.webp",
-            "foto25.webp", "foto26.webp", "foto27.webp", "foto28.webp"
+        // ⭐ AHORA USA URLs DE GITHUB PAGES CON ?v=2027 ⭐
+        imagenesFlotando: [
+            "https://honeymoon80.github.io/Gift-love-2/img/foto1.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto2.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto3.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto4.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto5.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto6.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto7.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto8.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto9.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto10.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto11.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto12.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto13.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto14.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto15.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto16.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto17.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto18.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto19.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto20.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto21.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto22.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto23.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto24.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto25.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto26.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto27.webp?v=2027",
+            "https://honeymoon80.github.io/Gift-love-2/img/foto28.webp?v=2027"
         ],
+        velocidadOrbita: 0.002,
+        cantidadParticulas: 3500,
         duracionCarga: 2.5,
         frasesLluvia: [
             "Te amo May 💖",
@@ -588,16 +701,19 @@
     // ================================================================
     //  VARIABLES GLOBALES
     // ================================================================
-    let audio = new Audio();
-    let isPlaying = false;
-    let cancionesLista = [];
-    let lluviaActiva = true;
-    let intervaloLluvia = null;
+    let scene, camera, renderer;
     let particulas = [];
     let frasesObjetos = [];
     let palabrasClaveObjetos = [];
     let imagenesOrbitando = [];
-    let anguloGlobal = 0;
+    let mouse = new THREE.Vector2(0, 0);
+    let tiempo = 0;
+    let audio = new Audio();
+    let isPlaying = false;
+    let cancionesLista = [];
+    let imagenTextures = [];
+    let lluviaActiva = true;
+    let intervaloLluvia = null;
 
     // ================================================================
     //  FUNCIONES DE INICIO Y CARGA
@@ -687,72 +803,121 @@
     }
 
     // ================================================================
-    //  INICIALIZAR GALAXIA EN HTML PURO
+    //  INICIALIZAR GALAXIA
     // ================================================================
     function iniciarGalaxia() {
         document.getElementById('mensajeCentral').style.display = 'block';
-        const galaxia = document.getElementById('galaxia');
-        galaxia.classList.add('active');
 
+        const container = document.getElementById('galaxyCanvas');
+        container.classList.add('active');
+
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0f0510);
+
+        const aspect = window.innerWidth / window.innerHeight;
+        camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
+        camera.position.set(0, 2, 12);
+        camera.lookAt(0, 0, 0);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        cargarTexturasFlotando();
         crearCorazonParticulas();
         crearFrases();
         crearPalabrasClave();
         crearImagenesFlotando();
+        efectoNacimiento();
         iniciarLluvia();
+
+        window.addEventListener('resize', onResize);
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('click', onGalaxyClick);
+
         animar();
     }
 
     // ================================================================
-    //  CORAZÓN DE PARTÍCULAS (CSS + JavaScript)
+    //  CORAZÓN DE PARTÍCULAS
     // ================================================================
     function crearCorazonParticulas() {
-        const container = document.getElementById('corazonContainer');
-        const colores = CONFIG.colores;
-        const total = 300;
+        const geometria = new THREE.BufferGeometry();
+        const count = CONFIG.cantidadParticulas;
+        const posiciones = new Float32Array(count * 3);
+        const colores = new Float32Array(count * 3);
+        const coloresPaleta = CONFIG.colores.map(c => new THREE.Color(c));
 
-        for (let i = 0; i < total; i++) {
-            const t = i / total;
-            const ang = t * Math.PI * 2;
-            const x = 16 * Math.pow(Math.sin(ang), 3);
-            const y = 13 * Math.cos(ang) - 5 * Math.cos(2*ang) - 2 * Math.cos(3*ang) - Math.cos(4*ang);
-            const px = 150 + x * 7;
-            const py = 150 - y * 7;
-            const size = 3 + Math.random() * 4;
-            const color = colores[Math.floor(Math.random() * colores.length)];
+        for (let i = 0; i < count; i++) {
+            const t = Math.random() * Math.PI * 2;
+            const rFactor = 0.5 + 0.5 * Math.random();
+            const x = 16 * Math.pow(Math.sin(t), 3) * rFactor * 0.7;
+            const y = (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * rFactor * 0.7;
+            const z = (Math.random() - 0.5) * 1.2;
 
-            const particula = document.createElement('div');
-            particula.className = 'particula';
-            particula.style.left = px + 'px';
-            particula.style.top = py + 'px';
-            particula.style.width = size + 'px';
-            particula.style.height = size + 'px';
-            particula.style.background = color;
-            particula.style.boxShadow = `0 0 10px ${color}`;
-            particula.style.animationDuration = (6 + Math.random() * 4) + 's';
-            particula.style.animationDelay = (Math.random() * 10) + 's';
-            container.appendChild(particula);
+            posiciones[i*3] = x;
+            posiciones[i*3+1] = y;
+            posiciones[i*3+2] = z;
+
+            const color = coloresPaleta[Math.floor(Math.random() * coloresPaleta.length)];
+            colores[i*3] = color.r;
+            colores[i*3+1] = color.g;
+            colores[i*3+2] = color.b;
         }
+
+        geometria.setAttribute('position', new THREE.BufferAttribute(posiciones, 3));
+        geometria.setAttribute('color', new THREE.BufferAttribute(colores, 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 0.08,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.9,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false,
+            sizeAttenuation: true
+        });
+
+        const puntos = new THREE.Points(geometria, material);
+        puntos.name = 'corazonCentral';
+        scene.add(puntos);
+
+        particulas.push({
+            mesh: puntos,
+            geometria: geometria,
+            material: material,
+            velocidadOrbita: CONFIG.velocidadOrbita,
+            posicionesOriginales: posiciones.slice()
+        });
     }
 
     // ================================================================
-    //  FRASES ORBITANDO (HTML PURO)
+    //  FRASES ORBITANDO (8 FRASES)
     // ================================================================
     function crearFrases() {
         const frases = CONFIG.frases;
-        const radio = 250;
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-
+        const radio = 4.8;
         frases.forEach((texto, idx) => {
             const angulo = (idx / frases.length) * Math.PI * 2;
             const div = document.createElement('div');
-            div.className = 'frase';
             div.textContent = texto;
-            div.style.left = centerX + 'px';
-            div.style.top = centerY + 'px';
-            div.style.transformOrigin = '-250px center';
-            div.style.animationDuration = (12 + Math.random() * 4) + 's';
-            div.style.animationDelay = (Math.random() * 10) + 's';
+            div.style.position = 'fixed';
+            div.style.color = '#ffd1dc';
+            div.style.fontSize = '1.1rem';
+            div.style.fontWeight = '500';
+            div.style.textShadow = '0 0 20px #ff85a2, 0 0 40px #ff6b81';
+            div.style.cursor = 'pointer';
+            div.style.background = 'rgba(20, 10, 15, 0.4)';
+            div.style.backdropFilter = 'blur(6px)';
+            div.style.padding = '8px 18px';
+            div.style.borderRadius = '40px';
+            div.style.border = '1px solid #ffb6c155';
+            div.style.transition = '0.2s';
+            div.style.pointerEvents = 'auto';
+            div.style.zIndex = '40';
+            div.style.letterSpacing = '0.5px';
+            div.style.whiteSpace = 'nowrap';
             document.body.appendChild(div);
 
             div.addEventListener('click', (e) => {
@@ -768,116 +933,169 @@
             frasesObjetos.push({
                 elemento: div,
                 angulo: angulo,
-                radio: radio
+                radio: radio,
+                velocidad: 0.003 + Math.random() * 0.002
             });
         });
     }
 
     // ================================================================
-    //  PALABRAS CLAVE (HTML PURO)
+    //  PALABRAS CLAVE
     // ================================================================
     function crearPalabrasClave() {
         const palabras = Object.keys(CONFIG.palabrasClave);
         const posiciones = [
-            { x: -200, y: -100 },
-            { x: 200, y: -100 },
-            { x: -200, y: 100 },
-            { x: 200, y: 100 },
-            { x: 0, y: -180 }
+            { x: -5.8, y: 2.0 },
+            { x: 5.8, y: 2.0 },
+            { x: -5.2, y: -2.8 },
+            { x: 5.2, y: -2.8 },
+            { x: 0, y: -4.2 }
         ];
-
         palabras.forEach((palabra, idx) => {
             const div = document.createElement('div');
-            div.className = 'palabra-clave';
             div.textContent = palabra;
+            div.className = 'palabra-clave';
             const pos = posiciones[idx % posiciones.length];
-            div.style.left = (window.innerWidth / 2 + pos.x) + 'px';
-            div.style.top = (window.innerHeight / 2 + pos.y) + 'px';
+            div.dataset.x = pos.x;
+            div.dataset.y = pos.y;
+            div.style.position = 'fixed';
+            div.style.zIndex = '50';
             document.body.appendChild(div);
 
             div.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const mensaje = CONFIG.palabrasClave[palabra] || '💖';
-                mostrarMensajeEmergente(palabra, mensaje, null, e.clientX, e.clientY);
+                const data = CONFIG.palabrasClave[palabra];
+                if (data) {
+                    mostrarMensajeEmergente(palabra, data.texto, data.img, e.clientX, e.clientY);
+                } else {
+                    mostrarMensajeEmergente(palabra, '💖', null, e.clientX, e.clientY);
+                }
             });
 
-            palabrasClaveObjetos.push({ elemento: div, x: pos.x, y: pos.y });
+            palabrasClaveObjetos.push({
+                elemento: div,
+                x: pos.x,
+                y: pos.y
+            });
         });
     }
 
     // ================================================================
-    //  IMÁGENES FLOTANDO (HTML PURO) - 28 IMÁGENES
+    //  IMÁGENES FLOTANDO - CON URLs DE GITHUB PAGES
     // ================================================================
-    function crearImagenesFlotando() {
-        const imagenes = CONFIG.imagenes;
-        const radios = [];
-        const sizes = [];
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
+    function cargarTexturasFlotando() {
+        const imagenes = CONFIG.imagenesFlotando;
+        const loader = new THREE.TextureLoader();
+        let cargadas = 0;
+        
+        imagenes.forEach((ruta) => {
+            loader.load(
+                ruta,
+                (texture) => {
+                    imagenTextures.push(texture);
+                    cargadas++;
+                    if (cargadas === imagenes.length) {
+                        crearImagenesFlotando();
+                    }
+                },
+                undefined,
+                (error) => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 128; canvas.height = 128;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#ff6b81';
+                    ctx.fillRect(0, 0, 128, 128);
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '40px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('💖', 64, 64);
+                    const tex = new THREE.CanvasTexture(canvas);
+                    imagenTextures.push(tex);
+                    cargadas++;
+                    if (cargadas === imagenes.length) {
+                        crearImagenesFlotando();
+                    }
+                }
+            );
+        });
+    }
 
-        for (let i = 0; i < imagenes.length; i++) {
-            const anillo = i % 3;
-            let radio;
-            if (anillo === 0) radio = 180 + Math.random() * 40;
-            else if (anillo === 1) radio = 280 + Math.random() * 40;
-            else radio = 380 + Math.random() * 40;
-            radios.push(radio);
-            sizes.push(80 + Math.random() * 40);
+    function crearImagenesFlotando() {
+        if (imagenTextures.length === 0) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128; canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffb6c1';
+            ctx.fillRect(0, 0, 128, 128);
+            ctx.fillStyle = '#fff';
+            ctx.font = '40px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('💖', 64, 64);
+            const tex = new THREE.CanvasTexture(canvas);
+            imagenTextures = Array(28).fill(tex);
         }
 
-        imagenes.forEach((img, idx) => {
+        const radios = [];
+        const sizes = [];
+        
+        for (let i = 0; i < 28; i++) {
+            const anillo = i % 3;
+            let radio;
+            if (anillo === 0) radio = 3.8 + Math.random() * 0.6;
+            else if (anillo === 1) radio = 5.0 + Math.random() * 0.6;
+            else radio = 6.2 + Math.random() * 0.6;
+            radios.push(radio);
+            sizes.push(0.9 + Math.random() * 0.5);
+        }
+        
+        CONFIG.imagenesFlotando.forEach((_, idx) => {
+            const tex = imagenTextures[idx % imagenTextures.length];
             const size = sizes[idx];
-            const imgElement = document.createElement('img');
-            imgElement.className = 'img-flotante';
-            imgElement.src = 'img/' + img;
-            imgElement.alt = 'Foto ' + (idx + 1);
-            imgElement.style.width = size + 'px';
-            imgElement.style.height = size + 'px';
-            imgElement.style.left = centerX + 'px';
-            imgElement.style.top = centerY + 'px';
-            imgElement.style.transformOrigin = `-${radios[idx]}px center`;
-            imgElement.style.animationDuration = (15 + Math.random() * 5) + 's';
-            imgElement.style.animationDelay = (Math.random() * 15) + 's';
-            imgElement.style.borderRadius = '16px';
-            imgElement.style.boxShadow = `0 0 20px rgba(255,107,129,0.3), 0 0 0 2px rgba(255,182,193,0.3)`;
-            imgElement.style.objectFit = 'cover';
-            imgElement.style.opacity = '0.85';
-
-            // Si la imagen no carga, mostrar un placeholder
-            imgElement.onerror = function() {
-                this.style.display = 'none';
-                const fallback = document.createElement('div');
-                fallback.className = 'img-flotante';
-                fallback.style.width = size + 'px';
-                fallback.style.height = size + 'px';
-                fallback.style.left = centerX + 'px';
-                fallback.style.top = centerY + 'px';
-                fallback.style.transformOrigin = `-${radios[idx]}px center`;
-                fallback.style.animationDuration = (15 + Math.random() * 5) + 's';
-                fallback.style.animationDelay = (Math.random() * 15) + 's';
-                fallback.style.borderRadius = '16px';
-                fallback.style.background = CONFIG.colores[idx % CONFIG.colores.length];
-                fallback.style.boxShadow = `0 0 20px rgba(255,107,129,0.3), 0 0 0 2px rgba(255,182,193,0.3)`;
-                fallback.style.display = 'flex';
-                fallback.style.alignItems = 'center';
-                fallback.style.justifyContent = 'center';
-                fallback.style.fontSize = '2rem';
-                fallback.textContent = '💖';
-                document.body.appendChild(fallback);
-                imagenesOrbitando.push({
-                    elemento: fallback,
-                    angulo: (idx / imagenes.length) * Math.PI * 2,
-                    radio: radios[idx],
-                    velocidad: 0.002 + Math.random() * 0.002
-                });
+            const geometria = new THREE.PlaneGeometry(size, size);
+            const material = new THREE.MeshBasicMaterial({
+                map: tex,
+                transparent: true,
+                side: THREE.DoubleSide,
+                opacity: 0.9
+            });
+            const mesh = new THREE.Mesh(geometria, material);
+            const angulo = (idx / CONFIG.imagenesFlotando.length) * Math.PI * 2 + Math.random() * 0.2;
+            const radio = radios[idx];
+            mesh.position.set(
+                Math.cos(angulo) * radio,
+                Math.sin(angulo) * radio * 0.7,
+                Math.sin(angulo * 0.5) * 1.5
+            );
+            mesh.name = 'imagenOrbita';
+            mesh.userData = {
+                angulo: angulo,
+                radio: radio,
+                velocidad: 0.002 + Math.random() * 0.001
             };
+            
+            scene.add(mesh);
 
-            document.body.appendChild(imgElement);
+            const bordeSize = size + 0.12;
+            const bordeGeo = new THREE.PlaneGeometry(bordeSize, bordeSize);
+            const bordeMat = new THREE.MeshBasicMaterial({
+                color: 0xff8da1,
+                transparent: true,
+                opacity: 0.3,
+                side: THREE.DoubleSide
+            });
+            const borde = new THREE.Mesh(bordeGeo, bordeMat);
+            borde.position.copy(mesh.position);
+            borde.position.z += 0.01;
+            scene.add(borde);
+
             imagenesOrbitando.push({
-                elemento: imgElement,
-                angulo: (idx / imagenes.length) * Math.PI * 2,
-                radio: radios[idx],
-                velocidad: 0.002 + Math.random() * 0.002
+                mesh: mesh,
+                borde: borde,
+                angulo: angulo,
+                radio: radio,
+                velocidad: 0.002 + Math.random() * 0.001
             });
         });
     }
@@ -888,19 +1106,19 @@
     function iniciarLluvia() {
         const emojis = ['❤️', '💖', '💕', '💗', '💝', '✨', '🌸', '🌹', '💫', '🌺'];
         const frases = CONFIG.frasesLluvia;
-
+        
         if (intervaloLluvia) clearInterval(intervaloLluvia);
-
+        
         intervaloLluvia = setInterval(() => {
             if (!lluviaActiva) return;
-
+            
             const cantidad = 2 + Math.floor(Math.random() * 3);
             for (let i = 0; i < cantidad; i++) {
                 const esFrase = Math.random() > 0.5;
-                const contenido = esFrase ?
-                    frases[Math.floor(Math.random() * frases.length)] :
+                const contenido = esFrase ? 
+                    frases[Math.floor(Math.random() * frases.length)] : 
                     emojis[Math.floor(Math.random() * emojis.length)];
-
+                
                 const div = document.createElement('div');
                 div.className = 'lluvia-item';
                 div.textContent = contenido;
@@ -909,9 +1127,9 @@
                 div.style.animationDuration = (6 + Math.random() * 6) + 's';
                 div.style.color = CONFIG.colores[Math.floor(Math.random() * CONFIG.colores.length)];
                 div.style.textShadow = `0 0 30px ${CONFIG.colores[Math.floor(Math.random() * CONFIG.colores.length)]}`;
-
+                
                 document.body.appendChild(div);
-
+                
                 setTimeout(() => {
                     if (div.parentNode) div.remove();
                 }, 12000);
@@ -920,52 +1138,118 @@
     }
 
     // ================================================================
-    //  MENSAJE EMERGENTE CON POLAROID
+    //  EFECTO NACIMIENTO DE ESTRELLAS
+    // ================================================================
+    function efectoNacimiento() {
+        const count = 300;
+        const geometria = new THREE.BufferGeometry();
+        const pos = new Float32Array(count * 3);
+        const col = new Float32Array(count * 3);
+        for (let i = 0; i < count; i++) {
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            const r = 0.1 + Math.random() * 0.5;
+            pos[i*3] = Math.sin(phi) * Math.cos(theta) * r;
+            pos[i*3+1] = Math.sin(phi) * Math.sin(theta) * r;
+            pos[i*3+2] = Math.cos(phi) * r;
+            const c = new THREE.Color(CONFIG.colores[Math.floor(Math.random() * CONFIG.colores.length)]);
+            col[i*3] = c.r;
+            col[i*3+1] = c.g;
+            col[i*3+2] = c.b;
+        }
+        geometria.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        geometria.setAttribute('color', new THREE.BufferAttribute(col, 3));
+        const material = new THREE.PointsMaterial({
+            size: 0.12,
+            vertexColors: true,
+            transparent: true,
+            opacity: 1,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        const puntos = new THREE.Points(geometria, material);
+        scene.add(puntos);
+
+        let startTime = Date.now();
+        const duracion = 1500;
+
+        function expandir() {
+            const elapsed = Date.now() - startTime;
+            const prog = Math.min(elapsed / duracion, 1);
+            const positions = geometria.attributes.position.array;
+            for (let i = 0; i < count; i++) {
+                const idx = i * 3;
+                const x = positions[idx];
+                const y = positions[idx+1];
+                const z = positions[idx+2];
+                const dist = Math.sqrt(x*x + y*y + z*z);
+                if (dist > 0.01) {
+                    const factor = 1 + prog * 8;
+                    positions[idx] = x * factor;
+                    positions[idx+1] = y * factor;
+                    positions[idx+2] = z * factor;
+                }
+            }
+            geometria.attributes.position.needsUpdate = true;
+            material.opacity = 1 - prog;
+            if (prog < 1) {
+                requestAnimationFrame(expandir);
+            } else {
+                scene.remove(puntos);
+                geometria.dispose();
+                material.dispose();
+            }
+        }
+        expandir();
+    }
+
+    // ================================================================
+    //  MENSAJE EMERGENTE CON IMAGEN POLAROID
     // ================================================================
     function mostrarMensajeEmergente(titulo, texto, imgPath, x, y) {
         document.querySelectorAll('.mensaje-emergente').forEach(el => el.remove());
 
         const div = document.createElement('div');
         div.className = 'mensaje-emergente';
-
+        
         const tituloSpan = document.createElement('span');
         tituloSpan.className = 'titulo-msg';
         tituloSpan.textContent = '💕 ' + titulo + ' 💕';
         div.appendChild(tituloSpan);
-
+        
         const contenido = document.createElement('div');
         contenido.className = 'contenido-msg';
-
+        
         const textoSpan = document.createElement('div');
         textoSpan.className = 'texto-msg';
         textoSpan.textContent = texto;
         contenido.appendChild(textoSpan);
-
+        
         if (imgPath) {
             const polaroidContainer = document.createElement('div');
             polaroidContainer.className = 'polaroid-container';
-
+            
             const img = document.createElement('img');
             img.className = 'polaroid';
             img.src = 'img/' + imgPath;
             img.alt = 'Foto de ' + titulo;
             img.loading = 'lazy';
-
+            
             img.onerror = function() {
                 this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"%3E%3Crect fill="%23ffb6c1" width="120" height="120"/%3E%3Ctext x="60" y="60" text-anchor="middle" dy=".3em" font-size="40" fill="%23fff"%3E💖%3C/text%3E%3C/svg%3E';
             };
-
+            
             polaroidContainer.appendChild(img);
             contenido.appendChild(polaroidContainer);
         }
-
+        
         div.appendChild(contenido);
-
+        
         const decoracion = document.createElement('div');
         decoracion.className = 'decoracion';
         decoracion.textContent = '🌸 ✨ 💖 ✨ 🌸';
         div.appendChild(decoracion);
-
+        
         const cerrar = document.createElement('button');
         cerrar.className = 'cerrar';
         cerrar.textContent = '✕';
@@ -974,8 +1258,12 @@
 
         div.style.left = Math.min(x + 20, window.innerWidth - 460) + 'px';
         div.style.top = Math.min(y - 80, window.innerHeight - 320) + 'px';
-        if (x + 460 > window.innerWidth) div.style.left = (x - 440) + 'px';
-        if (y + 320 > window.innerHeight) div.style.top = (y - 300) + 'px';
+        if (x + 460 > window.innerWidth) {
+            div.style.left = (x - 440) + 'px';
+        }
+        if (y + 320 > window.innerHeight) {
+            div.style.top = (y - 300) + 'px';
+        }
 
         document.body.appendChild(div);
 
@@ -1083,7 +1371,7 @@
                 reproducirCancion(currentIndex + 1);
             } else {
                 mostrarMensajeEmergente('💖 Amor Eterno 💖', 'May, esta canción termina, pero nuestro amor no. Cada nota es un latido que te dedico, y aunque la música se detenga, mi corazón seguirá cantando por ti. 🎵💕', null,
-                    window.innerWidth / 2 - 150, window.innerHeight / 2 - 50);
+                    window.innerWidth/2 - 150, window.innerHeight/2 - 50);
                 btnPlay.textContent = '▶';
                 isPlaying = false;
                 audio.currentTime = 0;
@@ -1117,34 +1405,26 @@
     }
 
     // ================================================================
-    //  ANIMACIÓN PRINCIPAL (HTML PURO)
+    //  EVENTOS DE INTERACCIÓN
     // ================================================================
-    function animar() {
-        requestAnimationFrame(animar);
-
-        // Actualizar posiciones de imágenes flotando (orbitar)
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const time = Date.now() / 1000;
-
-        imagenesOrbitando.forEach((img, index) => {
-            const angulo = img.angulo + time * img.velocidad;
-            const x = Math.cos(angulo) * img.radio;
-            const y = Math.sin(angulo) * img.radio * 0.7;
-            img.elemento.style.transform = `translate(${x}px, ${y}px)`;
-            img.elemento.style.left = centerX + 'px';
-            img.elemento.style.top = centerY + 'px';
-        });
+    function onResize() {
+        if (!renderer) return;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
     }
 
-    // ================================================================
-    //  EVENTO DE CLIC EN EL FONDO
-    // ================================================================
-    document.addEventListener('click', (event) => {
+    function onMouseMove(event) {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+    function onGalaxyClick(event) {
         const target = event.target;
-        if (target.closest('#musicPlayer') || target.closest('.mensaje-emergente') ||
-            target.closest('.palabra-clave') || target.closest('.frase') ||
-            target.closest('#mensajeCentral')) {
+        if (target.closest('#musicPlayer') || target.closest('.mensaje-emergente') || 
+            target.closest('.palabra-clave') || target.closest('#mensajeCentral')) {
             return;
         }
 
@@ -1182,11 +1462,88 @@
                 if (div.parentNode) div.remove();
             }, 2200);
         }
-    });
+    }
 
     // ================================================================
-    //  INICIO
+    //  ANIMACIÓN PRINCIPAL
     // ================================================================
+    function animar() {
+        requestAnimationFrame(animar);
+        tiempo += 0.01;
+
+        const corazon = particulas[0];
+        if (corazon) {
+            const pulso = 1 + Math.sin(tiempo * 2.5) * 0.04;
+            corazon.mesh.scale.set(pulso, pulso, pulso);
+            
+            const colores = CONFIG.colores.map(c => new THREE.Color(c));
+            const idx1 = Math.floor(tiempo * 0.2) % colores.length;
+            const idx2 = (idx1 + 1) % colores.length;
+            const mix = (tiempo * 0.2) % 1;
+            const color = colores[idx1].clone().lerp(colores[idx2], mix);
+            corazon.material.color = color;
+            
+            const positions = corazon.geometria.attributes.position.array;
+            const angVel = CONFIG.velocidadOrbita;
+            for (let i = 0; i < positions.length; i += 3) {
+                const x = positions[i];
+                const z = positions[i+2];
+                if (Math.abs(x) > 0.01 || Math.abs(z) > 0.01) {
+                    const dist = Math.sqrt(x*x + z*z);
+                    const ang = Math.atan2(z, x) + angVel * 0.5;
+                    positions[i] = Math.cos(ang) * dist;
+                    positions[i+2] = Math.sin(ang) * dist;
+                }
+            }
+            corazon.geometria.attributes.position.needsUpdate = true;
+        }
+
+        frasesObjetos.forEach((f) => {
+            f.angulo += f.velocidad;
+            const x = Math.cos(f.angulo) * f.radio;
+            const y = Math.sin(f.angulo) * f.radio * 0.8;
+            const vector = new THREE.Vector3(x, y, 0);
+            vector.project(camera);
+            const px = (vector.x * 0.5 + 0.5) * window.innerWidth;
+            const py = (-vector.y * 0.5 + 0.5) * window.innerHeight;
+            f.elemento.style.transform = `translate(${px - f.elemento.offsetWidth/2}px, ${py - f.elemento.offsetHeight/2}px)`;
+            f.elemento.style.opacity = vector.z < 1 ? '1' : '0';
+        });
+
+        palabrasClaveObjetos.forEach((p) => {
+            const vector = new THREE.Vector3(p.x, p.y, 0);
+            vector.project(camera);
+            const px = (vector.x * 0.5 + 0.5) * window.innerWidth;
+            const py = (-vector.y * 0.5 + 0.5) * window.innerHeight;
+            p.elemento.style.transform = `translate(${px - p.elemento.offsetWidth/2}px, ${py - p.elemento.offsetHeight/2}px)`;
+            p.elemento.style.opacity = vector.z < 1 ? '1' : '0';
+        });
+
+        imagenesOrbitando.forEach((img) => {
+            img.angulo += img.velocidad;
+            const x = Math.cos(img.angulo) * img.radio;
+            const y = Math.sin(img.angulo) * img.radio * 0.7;
+            const z = Math.sin(img.angulo * 0.7) * 1.2;
+            img.mesh.position.set(x, y, z);
+            img.borde.position.set(x, y, z + 0.01);
+            img.mesh.lookAt(camera.position);
+            img.borde.lookAt(camera.position);
+        });
+
+        if (particulas.length > 0) {
+            const pos = particulas[0].geometria.attributes.position.array;
+            const targetX = mouse.x * 0.3;
+            const targetY = mouse.y * 0.3;
+            for (let i = 0; i < pos.length; i += 3) {
+                pos[i] += (pos[i] + targetX * 0.05 - pos[i]) * 0.02;
+                pos[i+1] += (pos[i+1] + targetY * 0.05 - pos[i+1]) * 0.02;
+            }
+            particulas[0].geometria.attributes.position.needsUpdate = true;
+        }
+
+        renderer.render(scene, camera);
+    }
+
     window.addEventListener('DOMContentLoaded', iniciar);
 </script>
 </body>
