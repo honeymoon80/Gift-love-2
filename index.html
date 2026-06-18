@@ -26,11 +26,7 @@
             background: linear-gradient(145deg, #ffe0e8 0%, #ffdab9 100%);
             transition: opacity 0.8s ease, visibility 0.8s ease;
         }
-        #splash.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+        #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         #splash h1 {
             font-size: clamp(2.2rem, 10vw, 4.5rem);
             font-weight: 300;
@@ -42,16 +38,9 @@
             padding: 0 1rem;
         }
         #btnAbrir {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.8rem;
-            padding: 1.2rem 2.8rem;
-            border-radius: 60px;
-            background: #ff8da1;
-            color: #fff;
-            font-weight: 600;
-            letter-spacing: 1.5px;
+            background: none; border: none; cursor: pointer;
+            font-size: 1.8rem; padding: 1.2rem 2.8rem; border-radius: 60px;
+            background: #ff8da1; color: #fff; font-weight: 600;
             box-shadow: 0 0 30px #ff8da1aa, 0 0 60px #ff6b81aa;
             animation: latidoBoton 1.8s infinite ease-in-out;
         }
@@ -63,165 +52,112 @@
         }
 
         #loadingScreen {
-            position: fixed;
-            inset: 0;
-            z-index: 999;
-            background: #0f0510;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #ffe0e8;
-            transition: opacity 0.6s;
+            position: fixed; inset: 0; z-index: 999;
+            background: #0f0510; display: none;
+            flex-direction: column; align-items: center; justify-content: center;
+            color: #ffe0e8; transition: opacity 0.6s;
         }
         #loadingScreen.active { display: flex; }
         #loadingScreen .stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            position: absolute; width: 100%; height: 100%;
             background: radial-gradient(2px 2px at 20px 30px, #eee, transparent),
                         radial-gradient(2px 2px at 40px 70px, #fff, transparent),
                         radial-gradient(2px 2px at 50px 160px, #ddd, transparent),
                         radial-gradient(2px 2px at 90px 40px, #fff, transparent),
                         radial-gradient(2px 2px at 130px 80px, #fff, transparent);
-            background-size: 200px 200px;
-            opacity: 0.3;
+            background-size: 200px 200px; opacity: 0.3;
             animation: caerEstrellas 4s linear infinite;
         }
-        @keyframes caerEstrellas {
-            from { transform: translateY(-10%); }
-            to { transform: translateY(10%); }
-        }
-        .loader-content {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-        }
-        #heartLoader {
-            width: 100px;
-            height: 100px;
-            position: relative;
-            cursor: pointer;
-        }
-        #heartLoader canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        #progressCircle {
-            width: 140px;
-            height: 140px;
-            position: relative;
-        }
-        #progressCircle svg {
-            transform: rotate(-90deg);
-            width: 140px;
-            height: 140px;
-        }
-        #progressCircle circle {
-            fill: none;
-            stroke-width: 6;
-            stroke-linecap: round;
-        }
+        @keyframes caerEstrellas { from { transform: translateY(-10%); } to { transform: translateY(10%); } }
+        .loader-content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 2rem; }
+        #heartLoader { width: 100px; height: 100px; position: relative; cursor: pointer; }
+        #heartLoader canvas { width: 100%; height: 100%; display: block; }
+        #progressCircle { width: 140px; height: 140px; position: relative; }
+        #progressCircle svg { transform: rotate(-90deg); width: 140px; height: 140px; }
+        #progressCircle circle { fill: none; stroke-width: 6; stroke-linecap: round; }
         .bg-circle { stroke: #3a1a2a; }
-        .progress-circle {
-            stroke: #ff8da1;
-            stroke-dasharray: 380;
-            stroke-dashoffset: 380;
-            transition: stroke-dashoffset 0.1s linear;
-            filter: drop-shadow(0 0 8px #ff6b81);
-        }
-        .chispas {
-            position: absolute;
-            inset: -20px;
-            pointer-events: none;
-            background: radial-gradient(circle, #ffb6c1 2px, transparent 3px);
-            background-size: 25px 25px;
-            opacity: 0.4;
-            animation: girarChispas 8s linear infinite;
-        }
-        @keyframes girarChispas {
-            from { transform: rotate(0); }
-            to { transform: rotate(360deg); }
-        }
-        #loadingText {
-            font-size: 1.1rem;
-            letter-spacing: 4px;
-            color: #ffb6c1;
-            font-weight: 300;
-        }
+        .progress-circle { stroke: #ff8da1; stroke-dasharray: 380; stroke-dashoffset: 380; transition: stroke-dashoffset 0.1s linear; filter: drop-shadow(0 0 8px #ff6b81); }
+        .chispas { position: absolute; inset: -20px; pointer-events: none; background: radial-gradient(circle, #ffb6c1 2px, transparent 3px); background-size: 25px 25px; opacity: 0.4; animation: girarChispas 8s linear infinite; }
+        @keyframes girarChispas { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+        #loadingText { font-size: 1.1rem; letter-spacing: 4px; color: #ffb6c1; font-weight: 300; }
 
-        #galaxyCanvas {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            display: none;
-        }
+        #galaxyCanvas { position: fixed; inset: 0; z-index: 1; display: none; }
         #galaxyCanvas.active { display: block; }
 
         #mensajeCentral {
-            position: fixed;
-            z-index: 35;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            pointer-events: none;
-            max-width: 90vw;
-            line-height: 1.3;
-            animation: brilloMensaje 2s ease-in-out infinite alternate;
-            display: none;
+            position: fixed; z-index: 35; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center; pointer-events: none; max-width: 90vw; line-height: 1.3;
+            animation: brilloMensaje 2s ease-in-out infinite alternate; display: none;
         }
         #mensajeCentral .linea1 {
-            font-size: clamp(2rem, 5vw, 3.8rem);
-            font-weight: 800;
-            color: #FFB6C1;
+            font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 800; color: #FFB6C1;
             text-shadow: 0 0 30px #ff6b81, 0 0 60px #ff85a2, 0 0 90px #ffb6c1;
-            display: block;
-            letter-spacing: 2px;
+            display: block; letter-spacing: 2px;
         }
         #mensajeCentral .linea2 {
-            font-size: clamp(1.6rem, 4vw, 3rem);
-            font-weight: 700;
-            color: #FFD1DC;
+            font-size: clamp(1.6rem, 4vw, 3rem); font-weight: 700; color: #FFD1DC;
             text-shadow: 0 0 30px #ff6b81, 0 0 60px #ff85a2;
-            display: block;
-            margin-top: 0.2rem;
-            letter-spacing: 1px;
+            display: block; margin-top: 0.2rem; letter-spacing: 1px;
         }
         #mensajeCentral .linea3 {
-            font-size: clamp(1.2rem, 3vw, 2.2rem);
-            font-weight: 600;
-            color: #FFDAB9;
+            font-size: clamp(1.2rem, 3vw, 2.2rem); font-weight: 600; color: #FFDAB9;
             text-shadow: 0 0 30px #ff85a2, 0 0 50px #ff6b81;
-            display: block;
-            margin-top: 0.2rem;
+            display: block; margin-top: 0.2rem;
         }
         #mensajeCentral .linea4 {
-            font-size: clamp(2rem, 4.5vw, 3.2rem);
-            font-weight: 800;
-            color: #FF6B81;
+            font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; color: #FF6B81;
             text-shadow: 0 0 40px #ff6b81, 0 0 80px #ff85a2, 0 0 120px #ffb6c1;
-            display: block;
-            margin-top: 0.3rem;
-            letter-spacing: 2px;
+            display: block; margin-top: 0.3rem; letter-spacing: 2px;
         }
         @keyframes brilloMensaje {
             0% { filter: brightness(1) drop-shadow(0 0 20px #ff6b81); }
             100% { filter: brightness(1.2) drop-shadow(0 0 40px #ff85a2); }
         }
 
-        .lluvia-item {
+        /* IMÁGENES FLOTANDO EN HTML PURO */
+        .img-flotante {
             position: fixed;
-            z-index: 20;
+            z-index: 30;
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(255, 107, 129, 0.3), 0 0 0 2px rgba(255, 182, 193, 0.3);
+            object-fit: cover;
             pointer-events: none;
+            opacity: 0.85;
+            transition: transform 0.1s linear;
+            width: 100px;
+            height: 100px;
+        }
+
+        /* FRASES ORBITANDO */
+        .frase {
+            position: fixed; z-index: 40;
+            color: #ffd1dc; font-size: 1.1rem; font-weight: 500;
+            text-shadow: 0 0 20px #ff85a2, 0 0 40px #ff6b81;
+            cursor: pointer;
+            background: rgba(20, 10, 15, 0.4); backdrop-filter: blur(6px);
+            padding: 8px 18px; border-radius: 40px;
+            border: 1px solid #ffb6c155; transition: 0.2s;
+            pointer-events: auto; white-space: nowrap;
+        }
+        .frase:hover { transform: scale(1.1); background: rgba(255, 200, 210, 0.2); }
+
+        /* PALABRAS CLAVE */
+        .palabra-clave {
+            position: fixed; z-index: 50;
+            color: #ffd1dc; font-size: 1.2rem; font-weight: 500;
+            text-shadow: 0 0 20px #ff85a2, 0 0 40px #ff6b81;
+            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(4px);
+            padding: 6px 16px; border-radius: 40px;
+            border: 1px solid #ffb6c177; cursor: pointer;
+            transition: 0.2s; letter-spacing: 1px; pointer-events: auto;
+        }
+        .palabra-clave:hover { transform: scale(1.1); background: rgba(255, 200, 210, 0.2); border-color: #ff8da1; box-shadow: 0 0 30px #ff6b8166; }
+
+        .lluvia-item {
+            position: fixed; z-index: 20; pointer-events: none;
             font-size: 1.5rem;
             animation: caerLluvia linear forwards;
-            opacity: 0.9;
-            text-shadow: 0 0 20px rgba(255, 107, 129, 0.5);
+            opacity: 0.9; text-shadow: 0 0 20px rgba(255, 107, 129, 0.5);
         }
         @keyframes caerLluvia {
             0% { transform: translateY(-100px) rotate(0deg) scale(0.5); opacity: 0; }
@@ -231,276 +167,74 @@
         }
 
         #musicPlayer {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            z-index: 100;
-            background: rgba(30, 10, 20, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 60px;
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #fff;
+            position: fixed; bottom: 25px; right: 25px; z-index: 100;
+            background: rgba(30, 10, 20, 0.7); backdrop-filter: blur(12px);
+            border-radius: 60px; padding: 10px 16px;
+            display: flex; align-items: center; gap: 12px; color: #fff;
             box-shadow: 0 8px 30px rgba(0,0,0,0.5);
             border: 1px solid #ffb6c155;
-            min-width: 200px;
-            flex-wrap: wrap;
-            justify-content: center;
+            min-width: 200px; flex-wrap: wrap; justify-content: center;
         }
-        #musicPlayer.minimizado {
-            min-width: 50px;
-            border-radius: 40px;
-            padding: 6px 12px;
-        }
-        #musicPlayer.minimizado .controles,
-        #musicPlayer.minimizado .info-cancion,
-        #musicPlayer.minimizado .volumen-slider,
-        #musicPlayer.minimizado .barra-progreso {
-            display: none;
-        }
+        #musicPlayer.minimizado { min-width: 50px; border-radius: 40px; padding: 6px 12px; }
+        #musicPlayer.minimizado .controles, #musicPlayer.minimizado .info-cancion,
+        #musicPlayer.minimizado .volumen-slider, #musicPlayer.minimizado .barra-progreso { display: none; }
         .player-btn {
-            background: none;
-            border: none;
-            color: #ffb6c1;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 4px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: none; border: none; color: #ffb6c1; font-size: 1.5rem;
+            cursor: pointer; padding: 4px; width: 36px; height: 36px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
         }
         .player-btn:hover { background: #ffb6c133; color: #ff8da1; }
         .info-cancion { font-size: 0.8rem; color: #ffd1dc; white-space: nowrap; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
-        .barra-progreso {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-            min-width: 100px;
-        }
-        .barra-progreso input[type="range"] {
-            width: 100%;
-            height: 4px;
-            -webkit-appearance: none;
-            background: #3a1a2a;
-            border-radius: 4px;
-            outline: none;
-        }
-        .barra-progreso input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ff8da1;
-            cursor: pointer;
-            box-shadow: 0 0 10px #ff6b81;
-        }
+        .barra-progreso { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 100px; }
+        .barra-progreso input[type="range"] { width: 100%; height: 4px; -webkit-appearance: none; background: #3a1a2a; border-radius: 4px; outline: none; }
+        .barra-progreso input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #ff8da1; cursor: pointer; box-shadow: 0 0 10px #ff6b81; }
         .tiempo { font-size: 0.7rem; color: #ffb6c1; min-width: 36px; }
-        .volumen-slider {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .volumen-slider input[type="range"] {
-            width: 50px;
-            height: 4px;
-            -webkit-appearance: none;
-            background: #3a1a2a;
-            border-radius: 4px;
-        }
-        .volumen-slider input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ff8da1;
-            cursor: pointer;
-        }
-        .toggle-min {
-            background: none;
-            border: none;
-            color: #ffb6c1;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0 4px;
-        }
+        .volumen-slider { display: flex; align-items: center; gap: 6px; }
+        .volumen-slider input[type="range"] { width: 50px; height: 4px; -webkit-appearance: none; background: #3a1a2a; border-radius: 4px; }
+        .volumen-slider input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; border-radius: 50%; background: #ff8da1; cursor: pointer; }
+        .toggle-min { background: none; border: none; color: #ffb6c1; font-size: 1.2rem; cursor: pointer; padding: 0 4px; }
         .lista-canciones {
-            background: rgba(20, 10, 15, 0.9);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 8px;
-            position: absolute;
-            bottom: 70px;
-            right: 0;
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            border: 1px solid #ffb6c155;
-            min-width: 150px;
+            background: rgba(20, 10, 15, 0.9); backdrop-filter: blur(8px);
+            border-radius: 16px; padding: 8px; position: absolute; bottom: 70px; right: 0;
+            display: none; flex-direction: column; gap: 4px;
+            border: 1px solid #ffb6c155; min-width: 150px;
         }
         .lista-canciones.active { display: flex; }
-        .lista-canciones button {
-            background: none;
-            border: none;
-            color: #ffd1dc;
-            padding: 6px 12px;
-            text-align: left;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: 0.2s;
-            font-size: 0.85rem;
-        }
+        .lista-canciones button { background: none; border: none; color: #ffd1dc; padding: 6px 12px; text-align: left; cursor: pointer; border-radius: 8px; transition: 0.2s; font-size: 0.85rem; }
         .lista-canciones button:hover { background: #ffb6c122; color: #fff; }
 
         .mensaje-emergente {
-            position: fixed;
-            z-index: 200;
+            position: fixed; z-index: 200;
             background: linear-gradient(145deg, #fff5f7, #ffe8ed);
             backdrop-filter: blur(12px);
-            border-radius: 28px;
-            padding: 28px 32px;
-            max-width: 420px;
-            min-width: 240px;
+            border-radius: 28px; padding: 28px 32px;
+            max-width: 420px; min-width: 240px;
             box-shadow: 0 20px 60px rgba(255, 107, 129, 0.3), 0 0 0 2px #ffb6c1, 0 0 0 4px #ffd1dc, 0 0 40px rgba(255, 182, 193, 0.3);
             border: 2px solid rgba(255, 255, 255, 0.6);
-            color: #5a2d3a;
-            font-size: 1rem;
-            line-height: 1.7;
+            color: #5a2d3a; font-size: 1rem; line-height: 1.7;
             animation: aparecerCarta 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            pointer-events: auto;
-            font-weight: 500;
-            letter-spacing: 0.3px;
+            pointer-events: auto; font-weight: 500; letter-spacing: 0.3px;
         }
-        .mensaje-emergente::before {
-            content: '💖';
-            position: absolute;
-            top: -15px;
-            left: -15px;
-            font-size: 2rem;
-            animation: flotarCorazon 2s ease-in-out infinite;
-        }
-        .mensaje-emergente::after {
-            content: '✨';
-            position: absolute;
-            bottom: -15px;
-            right: -15px;
-            font-size: 1.8rem;
-            animation: flotarCorazon 2s ease-in-out infinite 0.5s;
-        }
-        @keyframes flotarCorazon {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(10deg); }
-        }
-        @keyframes aparecerCarta {
-            from { opacity: 0; transform: scale(0.7) translateY(30px) rotate(-5deg); }
-            to { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); }
-        }
+        .mensaje-emergente::before { content: '💖'; position: absolute; top: -15px; left: -15px; font-size: 2rem; animation: flotarCorazon 2s ease-in-out infinite; }
+        .mensaje-emergente::after { content: '✨'; position: absolute; bottom: -15px; right: -15px; font-size: 1.8rem; animation: flotarCorazon 2s ease-in-out infinite 0.5s; }
+        @keyframes flotarCorazon { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(10deg); } }
+        @keyframes aparecerCarta { from { opacity: 0; transform: scale(0.7) translateY(30px) rotate(-5deg); } to { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); } }
         .mensaje-emergente .cerrar {
-            position: absolute;
-            top: 8px;
-            right: 14px;
-            background: none;
-            border: none;
-            font-size: 1.4rem;
-            color: #a0526b;
-            cursor: pointer;
-            transition: 0.2s;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute; top: 8px; right: 14px; background: none; border: none;
+            font-size: 1.4rem; color: #a0526b; cursor: pointer; transition: 0.2s;
+            width: 30px; height: 30px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
             background: rgba(255, 182, 193, 0.2);
         }
-        .mensaje-emergente .cerrar:hover {
-            background: rgba(255, 107, 129, 0.3);
-            transform: rotate(90deg);
-        }
-        .mensaje-emergente .titulo-msg {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #ff6b81;
-            margin-bottom: 8px;
-            display: block;
-            text-align: center;
-        }
-        .mensaje-emergente .contenido-msg {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-        .mensaje-emergente .texto-msg {
-            color: #5a2d3a;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            text-align: center;
-        }
-        .mensaje-emergente .polaroid {
-            width: 120px;
-            height: 120px;
-            border-radius: 16px;
-            object-fit: cover;
-            box-shadow: 0 4px 15px rgba(255, 107, 129, 0.3), 0 0 0 3px #fff, 0 0 0 4px #ffb6c1;
-            transition: transform 0.3s ease;
-            background: #fff;
-            padding: 4px;
-        }
-        .mensaje-emergente .polaroid:hover {
-            transform: scale(1.05) rotate(-2deg);
-        }
-        .mensaje-emergente .polaroid-container {
-            position: relative;
-            display: inline-block;
-        }
-        .mensaje-emergente .polaroid-container::after {
-            content: '📸';
-            position: absolute;
-            bottom: -8px;
-            right: -8px;
-            font-size: 1.2rem;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            padding: 2px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .mensaje-emergente .decoracion {
-            display: flex;
-            gap: 6px;
-            justify-content: center;
-            margin-top: 8px;
-            font-size: 1.2rem;
-        }
-
-        .palabra-clave {
-            position: fixed;
-            z-index: 50;
-            color: #ffd1dc;
-            font-size: 1.2rem;
-            font-weight: 500;
-            text-shadow: 0 0 20px #ff85a2, 0 0 40px #ff6b81;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(4px);
-            padding: 6px 16px;
-            border-radius: 40px;
-            border: 1px solid #ffb6c177;
-            cursor: pointer;
-            transition: 0.2s;
-            letter-spacing: 1px;
-            pointer-events: auto;
-        }
-        .palabra-clave:hover {
-            transform: scale(1.1);
-            background: rgba(255, 200, 210, 0.2);
-            border-color: #ff8da1;
-            box-shadow: 0 0 30px #ff6b8166;
-        }
+        .mensaje-emergente .cerrar:hover { background: rgba(255, 107, 129, 0.3); transform: rotate(90deg); }
+        .mensaje-emergente .titulo-msg { font-size: 1.2rem; font-weight: 700; color: #ff6b81; margin-bottom: 8px; display: block; text-align: center; }
+        .mensaje-emergente .contenido-msg { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .mensaje-emergente .texto-msg { color: #5a2d3a; font-size: 0.95rem; line-height: 1.6; text-align: center; }
+        .mensaje-emergente .polaroid { width: 120px; height: 120px; border-radius: 16px; object-fit: cover; box-shadow: 0 4px 15px rgba(255, 107, 129, 0.3), 0 0 0 3px #fff, 0 0 0 4px #ffb6c1; transition: transform 0.3s ease; background: #fff; padding: 4px; }
+        .mensaje-emergente .polaroid:hover { transform: scale(1.05) rotate(-2deg); }
+        .mensaje-emergente .polaroid-container { position: relative; display: inline-block; }
+        .mensaje-emergente .polaroid-container::after { content: '📸'; position: absolute; bottom: -8px; right: -8px; font-size: 1.2rem; background: rgba(255, 255, 255, 0.9); border-radius: 50%; padding: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .mensaje-emergente .decoracion { display: flex; gap: 6px; justify-content: center; margin-top: 8px; font-size: 1.2rem; }
 
         @media (max-width: 600px) {
             #musicPlayer { bottom: 12px; right: 12px; padding: 6px 10px; min-width: 150px; gap: 6px; }
@@ -515,10 +249,7 @@
             #mensajeCentral .linea2 { font-size: clamp(1.2rem, 3.5vw, 1.8rem); }
             #mensajeCentral .linea3 { font-size: clamp(0.9rem, 2.5vw, 1.3rem); }
             #mensajeCentral .linea4 { font-size: clamp(1.4rem, 4vw, 2rem); }
-            .mensaje-emergente::before,
-            .mensaje-emergente::after {
-                font-size: 1.4rem;
-            }
+            .mensaje-emergente::before, .mensaje-emergente::after { font-size: 1.4rem; }
             .mensaje-emergente::before { top: -12px; left: -12px; }
             .mensaje-emergente::after { bottom: -12px; right: -12px; }
         }
@@ -534,9 +265,7 @@
 <div id="loadingScreen">
     <div class="stars"></div>
     <div class="loader-content">
-        <div id="heartLoader">
-            <canvas id="loaderCanvas" width="100" height="100"></canvas>
-        </div>
+        <div id="heartLoader"><canvas id="loaderCanvas" width="100" height="100"></canvas></div>
         <div id="progressCircle">
             <svg viewBox="0 0 140 140">
                 <circle class="bg-circle" cx="70" cy="70" r="60" />
@@ -578,7 +307,7 @@
 
 <script>
     // ================================================================
-    //  CONFIGURACIÓN CON URLs DE GITHUB PAGES (SÍ FUNCIONAN EN THREE.JS)
+    //  CONFIGURACIÓN
     // ================================================================
     const CONFIG = {
         nombre: "May",
@@ -593,108 +322,43 @@
             "Eres mi razón de ser"
         ],
         mensajesLargos: {
-            "Eres mi universo, May": {
-                texto: "May, desde que llegaste a mi vida, cada estrella brilla con tu nombre. Eres el centro de todo mi cosmos, mi sol, mi luna y todas mis estrellas. 🌟💖",
-                img: "msg_foto1.webp"
-            },
-            "Cada latido es por ti": {
-                texto: "Cada latido de mi corazón tiene tu nombre, May. Late por ti, late para ti, late contigo. Eres mi ritmo, mi melodía, mi canción de amor eterna. 🎵❤️",
-                img: "msg_foto2.webp"
-            },
-            "May, mi corazón baila contigo": {
-                texto: "Cuando estoy contigo, mi corazón baila al ritmo de tu sonrisa. Eres mi melodía favorita, la canción que nunca quiero dejar de escuchar. 💃✨",
-                img: "msg_foto3.webp"
-            },
-            "Eres la luz de mi galaxia": {
-                texto: "Tu luz ilumina incluso los rincones más oscuros de mi ser. Gracias por existir, May. Eres el faro que guía mi camino. 🌠💫",
-                img: "msg_foto4.webp"
-            },
-            "Contigo, eternidad": {
-                texto: "Contigo, el tiempo se detiene y la eternidad se vuelve un instante. Te amo, May. Quiero pasar todas mis vidas a tu lado. ♾️💕",
-                img: "msg_foto5.webp"
-            },
-            "Eres mi sueño hecho realidad": {
-                texto: "Cada noche soñaba contigo, y ahora despierto a tu lado. Eres mi sueño hecho realidad, mi deseo cumplido, mi mayor bendición. 🌙✨",
-                img: "msg_foto6.webp"
-            },
-            "Tu sonrisa ilumina mi mundo": {
-                texto: "Cuando sonríes, el mundo se vuelve más brillante. Tu sonrisa es la luz que disipa todas mis sombras, mi alegría diaria. ☀️😊",
-                img: "msg_foto7.webp"
-            },
-            "Eres mi razón de ser": {
-                texto: "Todo lo que hago, lo hago por ti. Eres mi motivación, mi inspiración, mi razón de ser. Sin ti, nada tendría sentido. 💖🌺",
-                img: "msg_foto8.webp"
-            }
+            "Eres mi universo, May": { texto: "May, desde que llegaste a mi vida, cada estrella brilla con tu nombre. Eres el centro de todo mi cosmos, mi sol, mi luna y todas mis estrellas. 🌟💖", img: "msg_foto1.webp" },
+            "Cada latido es por ti": { texto: "Cada latido de mi corazón tiene tu nombre, May. Late por ti, late para ti, late contigo. Eres mi ritmo, mi melodía, mi canción de amor eterna. 🎵❤️", img: "msg_foto2.webp" },
+            "May, mi corazón baila contigo": { texto: "Cuando estoy contigo, mi corazón baila al ritmo de tu sonrisa. Eres mi melodía favorita, la canción que nunca quiero dejar de escuchar. 💃✨", img: "msg_foto3.webp" },
+            "Eres la luz de mi galaxia": { texto: "Tu luz ilumina incluso los rincones más oscuros de mi ser. Gracias por existir, May. Eres el faro que guía mi camino. 🌠💫", img: "msg_foto4.webp" },
+            "Contigo, eternidad": { texto: "Contigo, el tiempo se detiene y la eternidad se vuelve un instante. Te amo, May. Quiero pasar todas mis vidas a tu lado. ♾️💕", img: "msg_foto5.webp" },
+            "Eres mi sueño hecho realidad": { texto: "Cada noche soñaba contigo, y ahora despierto a tu lado. Eres mi sueño hecho realidad, mi deseo cumplido, mi mayor bendición. 🌙✨", img: "msg_foto6.webp" },
+            "Tu sonrisa ilumina mi mundo": { texto: "Cuando sonríes, el mundo se vuelve más brillante. Tu sonrisa es la luz que disipa todas mis sombras, mi alegría diaria. ☀️😊", img: "msg_foto7.webp" },
+            "Eres mi razón de ser": { texto: "Todo lo que hago, lo hago por ti. Eres mi motivación, mi inspiración, mi razón de ser. Sin ti, nada tendría sentido. 💖🌺", img: "msg_foto8.webp" }
         },
         palabrasClave: {
-            "Recuerdos": {
-                texto: "Nuestro primer viaje juntos, tus risas, tus abrazos y cada momento que compartimos. Atesoro cada segundo a tu lado, son mi tesoro más preciado. 📸💕",
-                img: "msg_foto9.webp"
-            },
-            "Promesas": {
-                texto: "Te prometo amarte siempre, en las buenas y en las malas, hoy y por toda la eternidad. Mi amor por ti es infinito, May. 🤝💖",
-                img: "msg_foto10.webp"
-            },
-            "Futuro": {
-                texto: "Imagino un futuro lleno de días soleados contigo, May. Nuestras historias, nuestros sueños, nuestras aventuras... todo juntos. 🌅✨",
-                img: "msg_foto11.webp"
-            },
-            "Eternidad": {
-                texto: "El amor que siento por ti trasciende el tiempo y el espacio. Eres mi eternidad, mi todo, mi siempre. ♾️💫",
-                img: "msg_foto12.webp"
-            },
-            "Aventura": {
-                texto: "Cada día a tu lado es una nueva aventura llena de magia, descubrimientos y amor incondicional. Contigo, la vida es una hermosa travesía. 🗺️❤️",
-                img: "msg_foto13.webp"
-            }
+            "Recuerdos": { texto: "Nuestro primer viaje juntos, tus risas, tus abrazos y cada momento que compartimos. Atesoro cada segundo a tu lado, son mi tesoro más preciado. 📸💕", img: "msg_foto9.webp" },
+            "Promesas": { texto: "Te prometo amarte siempre, en las buenas y en las malas, hoy y por toda la eternidad. Mi amor por ti es infinito, May. 🤝💖", img: "msg_foto10.webp" },
+            "Futuro": { texto: "Imagino un futuro lleno de días soleados contigo, May. Nuestras historias, nuestros sueños, nuestras aventuras... todo juntos. 🌅✨", img: "msg_foto11.webp" },
+            "Eternidad": { texto: "El amor que siento por ti trasciende el tiempo y el espacio. Eres mi eternidad, mi todo, mi siempre. ♾️💫", img: "msg_foto12.webp" },
+            "Aventura": { texto: "Cada día a tu lado es una nueva aventura llena de magia, descubrimientos y amor incondicional. Contigo, la vida es una hermosa travesía. 🗺️❤️", img: "msg_foto13.webp" }
         },
         colores: ["#FFB6C1", "#FF6B81", "#FFD1DC", "#FFDAB9", "#FF85A2"],
         canciones: ["cancion1.mp3", "cancion2.mp3", "cancion3.mp3", "cancion4.mp3"],
-        // ⭐ AHORA USA URLs DE GITHUB PAGES CON ?v=2027 ⭐
-        imagenesFlotando: [
-            "https://honeymoon80.github.io/Gift-love-2/img/foto1.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto2.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto3.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto4.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto5.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto6.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto7.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto8.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto9.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto10.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto11.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto12.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto13.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto14.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto15.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto16.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto17.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto18.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto19.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto20.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto21.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto22.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto23.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto24.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto25.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto26.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto27.webp?v=2027",
-            "https://honeymoon80.github.io/Gift-love-2/img/foto28.webp?v=2027"
+        
+        // ⭐ 28 IMÁGENES - CON RUTA RELATIVA (HTML PURO) ⭐
+        imagenes: [
+            "foto1.webp", "foto2.webp", "foto3.webp", "foto4.webp",
+            "foto5.webp", "foto6.webp", "foto7.webp", "foto8.webp",
+            "foto9.webp", "foto10.webp", "foto11.webp", "foto12.webp",
+            "foto13.webp", "foto14.webp", "foto15.webp", "foto16.webp",
+            "foto17.webp", "foto18.webp", "foto19.webp", "foto20.webp",
+            "foto21.webp", "foto22.webp", "foto23.webp", "foto24.webp",
+            "foto25.webp", "foto26.webp", "foto27.webp", "foto28.webp"
         ],
+        
         velocidadOrbita: 0.002,
         cantidadParticulas: 3500,
         duracionCarga: 2.5,
         frasesLluvia: [
-            "Te amo May 💖",
-            "Eres mi sol ✨",
-            "Siempre tú 🌸",
-            "Mi alma 💫",
-            "Eres perfecta 🌹",
-            "Te adoro ❤️",
-            "Eres mi vida 💕",
-            "Mi razón de ser 🌺",
-            "Eres mi sueño 🌙",
-            "Te amo con todo 💗"
+            "Te amo May 💖", "Eres mi sol ✨", "Siempre tú 🌸", "Mi alma 💫",
+            "Eres perfecta 🌹", "Te adoro ❤️", "Eres mi vida 💕", "Mi razón de ser 🌺",
+            "Eres mi sueño 🌙", "Te amo con todo 💗"
         ]
     };
 
@@ -703,17 +367,16 @@
     // ================================================================
     let scene, camera, renderer;
     let particulas = [];
-    let frasesObjetos = [];
-    let palabrasClaveObjetos = [];
-    let imagenesOrbitando = [];
     let mouse = new THREE.Vector2(0, 0);
     let tiempo = 0;
     let audio = new Audio();
     let isPlaying = false;
     let cancionesLista = [];
-    let imagenTextures = [];
     let lluviaActiva = true;
     let intervaloLluvia = null;
+    let imagenesOrbitando = [];
+    let frasesObjetos = [];
+    let palabrasClaveObjetos = [];
 
     // ================================================================
     //  FUNCIONES DE INICIO Y CARGA
@@ -803,7 +466,7 @@
     }
 
     // ================================================================
-    //  INICIALIZAR GALAXIA
+    //  INICIALIZAR GALAXIA (Three.js para el corazón + HTML para imágenes)
     // ================================================================
     function iniciarGalaxia() {
         document.getElementById('mensajeCentral').style.display = 'block';
@@ -811,6 +474,7 @@
         const container = document.getElementById('galaxyCanvas');
         container.classList.add('active');
 
+        // THREE.JS PARA EL CORAZÓN
         scene = new THREE.Scene();
         scene.background = new THREE.Color(0x0f0510);
 
@@ -824,12 +488,13 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer.domElement);
 
-        cargarTexturasFlotando();
         crearCorazonParticulas();
+        efectoNacimiento();
+
+        // HTML PARA IMÁGENES FLOTANDO
+        crearImagenesFlotando();
         crearFrases();
         crearPalabrasClave();
-        crearImagenesFlotando();
-        efectoNacimiento();
         iniciarLluvia();
 
         window.addEventListener('resize', onResize);
@@ -840,7 +505,7 @@
     }
 
     // ================================================================
-    //  CORAZÓN DE PARTÍCULAS
+    //  CORAZÓN DE PARTÍCULAS (Three.js) - FLUIDO 3D
     // ================================================================
     function crearCorazonParticulas() {
         const geometria = new THREE.BufferGeometry();
@@ -887,258 +552,12 @@
             mesh: puntos,
             geometria: geometria,
             material: material,
-            velocidadOrbita: CONFIG.velocidadOrbita,
-            posicionesOriginales: posiciones.slice()
+            velocidadOrbita: CONFIG.velocidadOrbita
         });
     }
 
     // ================================================================
-    //  FRASES ORBITANDO (8 FRASES)
-    // ================================================================
-    function crearFrases() {
-        const frases = CONFIG.frases;
-        const radio = 4.8;
-        frases.forEach((texto, idx) => {
-            const angulo = (idx / frases.length) * Math.PI * 2;
-            const div = document.createElement('div');
-            div.textContent = texto;
-            div.style.position = 'fixed';
-            div.style.color = '#ffd1dc';
-            div.style.fontSize = '1.1rem';
-            div.style.fontWeight = '500';
-            div.style.textShadow = '0 0 20px #ff85a2, 0 0 40px #ff6b81';
-            div.style.cursor = 'pointer';
-            div.style.background = 'rgba(20, 10, 15, 0.4)';
-            div.style.backdropFilter = 'blur(6px)';
-            div.style.padding = '8px 18px';
-            div.style.borderRadius = '40px';
-            div.style.border = '1px solid #ffb6c155';
-            div.style.transition = '0.2s';
-            div.style.pointerEvents = 'auto';
-            div.style.zIndex = '40';
-            div.style.letterSpacing = '0.5px';
-            div.style.whiteSpace = 'nowrap';
-            document.body.appendChild(div);
-
-            div.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const data = CONFIG.mensajesLargos[texto];
-                if (data) {
-                    mostrarMensajeEmergente(texto, data.texto, data.img, e.clientX, e.clientY);
-                } else {
-                    mostrarMensajeEmergente(texto, 'Te amo, May 💖', null, e.clientX, e.clientY);
-                }
-            });
-
-            frasesObjetos.push({
-                elemento: div,
-                angulo: angulo,
-                radio: radio,
-                velocidad: 0.003 + Math.random() * 0.002
-            });
-        });
-    }
-
-    // ================================================================
-    //  PALABRAS CLAVE
-    // ================================================================
-    function crearPalabrasClave() {
-        const palabras = Object.keys(CONFIG.palabrasClave);
-        const posiciones = [
-            { x: -5.8, y: 2.0 },
-            { x: 5.8, y: 2.0 },
-            { x: -5.2, y: -2.8 },
-            { x: 5.2, y: -2.8 },
-            { x: 0, y: -4.2 }
-        ];
-        palabras.forEach((palabra, idx) => {
-            const div = document.createElement('div');
-            div.textContent = palabra;
-            div.className = 'palabra-clave';
-            const pos = posiciones[idx % posiciones.length];
-            div.dataset.x = pos.x;
-            div.dataset.y = pos.y;
-            div.style.position = 'fixed';
-            div.style.zIndex = '50';
-            document.body.appendChild(div);
-
-            div.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const data = CONFIG.palabrasClave[palabra];
-                if (data) {
-                    mostrarMensajeEmergente(palabra, data.texto, data.img, e.clientX, e.clientY);
-                } else {
-                    mostrarMensajeEmergente(palabra, '💖', null, e.clientX, e.clientY);
-                }
-            });
-
-            palabrasClaveObjetos.push({
-                elemento: div,
-                x: pos.x,
-                y: pos.y
-            });
-        });
-    }
-
-    // ================================================================
-    //  IMÁGENES FLOTANDO - CON URLs DE GITHUB PAGES
-    // ================================================================
-    function cargarTexturasFlotando() {
-        const imagenes = CONFIG.imagenesFlotando;
-        const loader = new THREE.TextureLoader();
-        let cargadas = 0;
-        
-        imagenes.forEach((ruta) => {
-            loader.load(
-                ruta,
-                (texture) => {
-                    imagenTextures.push(texture);
-                    cargadas++;
-                    if (cargadas === imagenes.length) {
-                        crearImagenesFlotando();
-                    }
-                },
-                undefined,
-                (error) => {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 128; canvas.height = 128;
-                    const ctx = canvas.getContext('2d');
-                    ctx.fillStyle = '#ff6b81';
-                    ctx.fillRect(0, 0, 128, 128);
-                    ctx.fillStyle = '#fff';
-                    ctx.font = '40px sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText('💖', 64, 64);
-                    const tex = new THREE.CanvasTexture(canvas);
-                    imagenTextures.push(tex);
-                    cargadas++;
-                    if (cargadas === imagenes.length) {
-                        crearImagenesFlotando();
-                    }
-                }
-            );
-        });
-    }
-
-    function crearImagenesFlotando() {
-        if (imagenTextures.length === 0) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 128; canvas.height = 128;
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#ffb6c1';
-            ctx.fillRect(0, 0, 128, 128);
-            ctx.fillStyle = '#fff';
-            ctx.font = '40px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('💖', 64, 64);
-            const tex = new THREE.CanvasTexture(canvas);
-            imagenTextures = Array(28).fill(tex);
-        }
-
-        const radios = [];
-        const sizes = [];
-        
-        for (let i = 0; i < 28; i++) {
-            const anillo = i % 3;
-            let radio;
-            if (anillo === 0) radio = 3.8 + Math.random() * 0.6;
-            else if (anillo === 1) radio = 5.0 + Math.random() * 0.6;
-            else radio = 6.2 + Math.random() * 0.6;
-            radios.push(radio);
-            sizes.push(0.9 + Math.random() * 0.5);
-        }
-        
-        CONFIG.imagenesFlotando.forEach((_, idx) => {
-            const tex = imagenTextures[idx % imagenTextures.length];
-            const size = sizes[idx];
-            const geometria = new THREE.PlaneGeometry(size, size);
-            const material = new THREE.MeshBasicMaterial({
-                map: tex,
-                transparent: true,
-                side: THREE.DoubleSide,
-                opacity: 0.9
-            });
-            const mesh = new THREE.Mesh(geometria, material);
-            const angulo = (idx / CONFIG.imagenesFlotando.length) * Math.PI * 2 + Math.random() * 0.2;
-            const radio = radios[idx];
-            mesh.position.set(
-                Math.cos(angulo) * radio,
-                Math.sin(angulo) * radio * 0.7,
-                Math.sin(angulo * 0.5) * 1.5
-            );
-            mesh.name = 'imagenOrbita';
-            mesh.userData = {
-                angulo: angulo,
-                radio: radio,
-                velocidad: 0.002 + Math.random() * 0.001
-            };
-            
-            scene.add(mesh);
-
-            const bordeSize = size + 0.12;
-            const bordeGeo = new THREE.PlaneGeometry(bordeSize, bordeSize);
-            const bordeMat = new THREE.MeshBasicMaterial({
-                color: 0xff8da1,
-                transparent: true,
-                opacity: 0.3,
-                side: THREE.DoubleSide
-            });
-            const borde = new THREE.Mesh(bordeGeo, bordeMat);
-            borde.position.copy(mesh.position);
-            borde.position.z += 0.01;
-            scene.add(borde);
-
-            imagenesOrbitando.push({
-                mesh: mesh,
-                borde: borde,
-                angulo: angulo,
-                radio: radio,
-                velocidad: 0.002 + Math.random() * 0.001
-            });
-        });
-    }
-
-    // ================================================================
-    //  LLUVIA DE CORAZONES Y FRASES
-    // ================================================================
-    function iniciarLluvia() {
-        const emojis = ['❤️', '💖', '💕', '💗', '💝', '✨', '🌸', '🌹', '💫', '🌺'];
-        const frases = CONFIG.frasesLluvia;
-        
-        if (intervaloLluvia) clearInterval(intervaloLluvia);
-        
-        intervaloLluvia = setInterval(() => {
-            if (!lluviaActiva) return;
-            
-            const cantidad = 2 + Math.floor(Math.random() * 3);
-            for (let i = 0; i < cantidad; i++) {
-                const esFrase = Math.random() > 0.5;
-                const contenido = esFrase ? 
-                    frases[Math.floor(Math.random() * frases.length)] : 
-                    emojis[Math.floor(Math.random() * emojis.length)];
-                
-                const div = document.createElement('div');
-                div.className = 'lluvia-item';
-                div.textContent = contenido;
-                div.style.left = (Math.random() * 90 + 5) + '%';
-                div.style.fontSize = (1.2 + Math.random() * 1.5) + 'rem';
-                div.style.animationDuration = (6 + Math.random() * 6) + 's';
-                div.style.color = CONFIG.colores[Math.floor(Math.random() * CONFIG.colores.length)];
-                div.style.textShadow = `0 0 30px ${CONFIG.colores[Math.floor(Math.random() * CONFIG.colores.length)]}`;
-                
-                document.body.appendChild(div);
-                
-                setTimeout(() => {
-                    if (div.parentNode) div.remove();
-                }, 12000);
-            }
-        }, 800);
-    }
-
-    // ================================================================
-    //  EFECTO NACIMIENTO DE ESTRELLAS
+    //  EFECTO NACIMIENTO DE ESTRELLAS (Three.js)
     // ================================================================
     function efectoNacimiento() {
         const count = 300;
@@ -1204,52 +623,212 @@
     }
 
     // ================================================================
-    //  MENSAJE EMERGENTE CON IMAGEN POLAROID
+    //  IMÁGENES FLOTANDO EN HTML PURO (con ruta relativa)
+    // ================================================================
+    function crearImagenesFlotando() {
+        const imagenes = CONFIG.imagenes;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const radios = [];
+        const sizes = [];
+
+        for (let i = 0; i < imagenes.length; i++) {
+            const anillo = i % 3;
+            let radio;
+            if (anillo === 0) radio = 180 + Math.random() * 40;
+            else if (anillo === 1) radio = 280 + Math.random() * 40;
+            else radio = 380 + Math.random() * 40;
+            radios.push(radio);
+            sizes.push(80 + Math.random() * 40);
+        }
+
+        imagenes.forEach((img, idx) => {
+            const size = sizes[idx];
+            const imgElement = document.createElement('img');
+            imgElement.className = 'img-flotante';
+            imgElement.src = 'img/' + img;
+            imgElement.alt = 'Foto ' + (idx + 1);
+            imgElement.style.width = size + 'px';
+            imgElement.style.height = size + 'px';
+            imgElement.style.left = centerX + 'px';
+            imgElement.style.top = centerY + 'px';
+            imgElement.style.transformOrigin = `-${radios[idx]}px center`;
+            imgElement.style.borderRadius = '16px';
+            imgElement.style.boxShadow = `0 0 20px rgba(255,107,129,0.3), 0 0 0 2px rgba(255,182,193,0.3)`;
+            imgElement.style.objectFit = 'cover';
+            imgElement.style.opacity = '0.85';
+
+            imgElement.onerror = function() {
+                this.style.display = 'none';
+                const fallback = document.createElement('div');
+                fallback.className = 'img-flotante';
+                fallback.style.width = size + 'px';
+                fallback.style.height = size + 'px';
+                fallback.style.left = centerX + 'px';
+                fallback.style.top = centerY + 'px';
+                fallback.style.transformOrigin = `-${radios[idx]}px center`;
+                fallback.style.borderRadius = '16px';
+                fallback.style.background = CONFIG.colores[idx % CONFIG.colores.length];
+                fallback.style.boxShadow = `0 0 20px rgba(255,107,129,0.3), 0 0 0 2px rgba(255,182,193,0.3)`;
+                fallback.style.display = 'flex';
+                fallback.style.alignItems = 'center';
+                fallback.style.justifyContent = 'center';
+                fallback.style.fontSize = '2rem';
+                fallback.textContent = '💖';
+                document.body.appendChild(fallback);
+                imagenesOrbitando.push({
+                    elemento: fallback,
+                    angulo: (idx / imagenes.length) * Math.PI * 2,
+                    radio: radios[idx],
+                    velocidad: 0.002 + Math.random() * 0.002
+                });
+            };
+
+            document.body.appendChild(imgElement);
+            imagenesOrbitando.push({
+                elemento: imgElement,
+                angulo: (idx / imagenes.length) * Math.PI * 2,
+                radio: radios[idx],
+                velocidad: 0.002 + Math.random() * 0.002
+            });
+        });
+    }
+
+    // ================================================================
+    //  FRASES ORBITANDO
+    // ================================================================
+    function crearFrases() {
+        const frases = CONFIG.frases;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const radio = 250;
+
+        frases.forEach((texto, idx) => {
+            const angulo = (idx / frases.length) * Math.PI * 2;
+            const div = document.createElement('div');
+            div.className = 'frase';
+            div.textContent = texto;
+            div.style.left = centerX + 'px';
+            div.style.top = centerY + 'px';
+            div.style.transformOrigin = `-${radio}px center`;
+            div.dataset.angulo = angulo;
+            div.dataset.radio = radio;
+            document.body.appendChild(div);
+
+            div.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const data = CONFIG.mensajesLargos[texto];
+                if (data) {
+                    mostrarMensajeEmergente(texto, data.texto, data.img, e.clientX, e.clientY);
+                }
+            });
+
+            frasesObjetos.push({ elemento: div, angulo: angulo, radio: radio });
+        });
+    }
+
+    // ================================================================
+    //  PALABRAS CLAVE
+    // ================================================================
+    function crearPalabrasClave() {
+        const palabras = Object.keys(CONFIG.palabrasClave);
+        const posiciones = [
+            { x: -200, y: -100 }, { x: 200, y: -100 },
+            { x: -200, y: 100 }, { x: 200, y: 100 },
+            { x: 0, y: -180 }
+        ];
+
+        palabras.forEach((palabra, idx) => {
+            const div = document.createElement('div');
+            div.className = 'palabra-clave';
+            div.textContent = palabra;
+            const pos = posiciones[idx % posiciones.length];
+            div.style.left = (window.innerWidth / 2 + pos.x) + 'px';
+            div.style.top = (window.innerHeight / 2 + pos.y) + 'px';
+            document.body.appendChild(div);
+
+            div.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const data = CONFIG.palabrasClave[palabra];
+                if (data) {
+                    mostrarMensajeEmergente(palabra, data.texto, data.img, e.clientX, e.clientY);
+                }
+            });
+
+            palabrasClaveObjetos.push({ elemento: div, x: pos.x, y: pos.y });
+        });
+    }
+
+    // ================================================================
+    //  LLUVIA
+    // ================================================================
+    function iniciarLluvia() {
+        const emojis = ['❤️', '💖', '💕', '💗', '💝', '✨', '🌸', '🌹', '💫', '🌺'];
+        const frases = CONFIG.frasesLluvia;
+
+        if (intervaloLluvia) clearInterval(intervaloLluvia);
+
+        intervaloLluvia = setInterval(() => {
+            if (!lluviaActiva) return;
+            const cantidad = 2 + Math.floor(Math.random() * 3);
+            for (let i = 0; i < cantidad; i++) {
+                const esFrase = Math.random() > 0.5;
+                const contenido = esFrase ? frases[Math.floor(Math.random() * frases.length)] : emojis[Math.floor(Math.random() * emojis.length)];
+                const div = document.createElement('div');
+                div.className = 'lluvia-item';
+                div.textContent = contenido;
+                div.style.left = (Math.random() * 90 + 5) + '%';
+                div.style.fontSize = (1.2 + Math.random() * 1.5) + 'rem';
+                div.style.animationDuration = (6 + Math.random() * 6) + 's';
+                div.style.color = CONFIG.colores[Math.floor(Math.random() * CONFIG.colores.length)];
+                div.style.textShadow = `0 0 30px ${CONFIG.colores[Math.floor(Math.random() * CONFIG.colores.length)]}`;
+                document.body.appendChild(div);
+                setTimeout(() => { if (div.parentNode) div.remove(); }, 12000);
+            }
+        }, 800);
+    }
+
+    // ================================================================
+    //  MENSAJE EMERGENTE
     // ================================================================
     function mostrarMensajeEmergente(titulo, texto, imgPath, x, y) {
         document.querySelectorAll('.mensaje-emergente').forEach(el => el.remove());
-
         const div = document.createElement('div');
         div.className = 'mensaje-emergente';
-        
+
         const tituloSpan = document.createElement('span');
         tituloSpan.className = 'titulo-msg';
         tituloSpan.textContent = '💕 ' + titulo + ' 💕';
         div.appendChild(tituloSpan);
-        
+
         const contenido = document.createElement('div');
         contenido.className = 'contenido-msg';
-        
         const textoSpan = document.createElement('div');
         textoSpan.className = 'texto-msg';
         textoSpan.textContent = texto;
         contenido.appendChild(textoSpan);
-        
+
         if (imgPath) {
             const polaroidContainer = document.createElement('div');
             polaroidContainer.className = 'polaroid-container';
-            
             const img = document.createElement('img');
             img.className = 'polaroid';
             img.src = 'img/' + imgPath;
             img.alt = 'Foto de ' + titulo;
             img.loading = 'lazy';
-            
             img.onerror = function() {
                 this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"%3E%3Crect fill="%23ffb6c1" width="120" height="120"/%3E%3Ctext x="60" y="60" text-anchor="middle" dy=".3em" font-size="40" fill="%23fff"%3E💖%3C/text%3E%3C/svg%3E';
             };
-            
             polaroidContainer.appendChild(img);
             contenido.appendChild(polaroidContainer);
         }
-        
+
         div.appendChild(contenido);
-        
         const decoracion = document.createElement('div');
         decoracion.className = 'decoracion';
         decoracion.textContent = '🌸 ✨ 💖 ✨ 🌸';
         div.appendChild(decoracion);
-        
+
         const cerrar = document.createElement('button');
         cerrar.className = 'cerrar';
         cerrar.textContent = '✕';
@@ -1258,22 +837,15 @@
 
         div.style.left = Math.min(x + 20, window.innerWidth - 460) + 'px';
         div.style.top = Math.min(y - 80, window.innerHeight - 320) + 'px';
-        if (x + 460 > window.innerWidth) {
-            div.style.left = (x - 440) + 'px';
-        }
-        if (y + 320 > window.innerHeight) {
-            div.style.top = (y - 300) + 'px';
-        }
+        if (x + 460 > window.innerWidth) div.style.left = (x - 440) + 'px';
+        if (y + 320 > window.innerHeight) div.style.top = (y - 300) + 'px';
 
         document.body.appendChild(div);
-
-        setTimeout(() => {
-            if (div.parentNode) div.remove();
-        }, 10000);
+        setTimeout(() => { if (div.parentNode) div.remove(); }, 10000);
     }
 
     // ================================================================
-    //  REPRODUCTOR DE MÚSICA
+    //  REPRODUCTOR
     // ================================================================
     function configurarReproductor() {
         const btnPlay = document.getElementById('btnPlayPause');
@@ -1313,24 +885,14 @@
 
         btnPlay.addEventListener('click', () => {
             if (audio.src) {
-                if (isPlaying) {
-                    audio.pause();
-                    btnPlay.textContent = '▶';
-                } else {
-                    audio.play().catch(() => {});
-                    btnPlay.textContent = '⏸';
-                }
+                if (isPlaying) { audio.pause(); btnPlay.textContent = '▶'; } 
+                else { audio.play().catch(() => {}); btnPlay.textContent = '⏸'; }
                 isPlaying = !isPlaying;
             }
         });
 
-        btnRetro.addEventListener('click', () => {
-            audio.currentTime = Math.max(0, audio.currentTime - 10);
-        });
-
-        btnAdel.addEventListener('click', () => {
-            audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
-        });
+        btnRetro.addEventListener('click', () => { audio.currentTime = Math.max(0, audio.currentTime - 10); });
+        btnAdel.addEventListener('click', () => { audio.currentTime = Math.min(audio.duration, audio.currentTime + 10); });
 
         audio.addEventListener('timeupdate', () => {
             if (audio.duration) {
@@ -1342,23 +904,14 @@
         });
 
         progress.addEventListener('input', () => {
-            if (audio.duration) {
-                audio.currentTime = parseFloat(progress.value) * audio.duration;
-            }
+            if (audio.duration) audio.currentTime = parseFloat(progress.value) * audio.duration;
         });
 
-        volControl.addEventListener('input', () => {
-            audio.volume = parseFloat(volControl.value);
-        });
+        volControl.addEventListener('input', () => { audio.volume = parseFloat(volControl.value); });
         audio.volume = 0.7;
 
-        btnLista.addEventListener('click', (e) => {
-            e.stopPropagation();
-            listaContainer.classList.toggle('active');
-        });
-        document.addEventListener('click', () => {
-            listaContainer.classList.remove('active');
-        });
+        btnLista.addEventListener('click', (e) => { e.stopPropagation(); listaContainer.classList.toggle('active'); });
+        document.addEventListener('click', () => { listaContainer.classList.remove('active'); });
 
         toggleMin.addEventListener('click', () => {
             player.classList.toggle('minimizado');
@@ -1371,7 +924,7 @@
                 reproducirCancion(currentIndex + 1);
             } else {
                 mostrarMensajeEmergente('💖 Amor Eterno 💖', 'May, esta canción termina, pero nuestro amor no. Cada nota es un latido que te dedico, y aunque la música se detenga, mi corazón seguirá cantando por ti. 🎵💕', null,
-                    window.innerWidth/2 - 150, window.innerHeight/2 - 50);
+                    window.innerWidth / 2 - 150, window.innerHeight / 2 - 50);
                 btnPlay.textContent = '▶';
                 isPlaying = false;
                 audio.currentTime = 0;
@@ -1393,7 +946,6 @@
                 btn.style.background = i === index ? '#ffb6c133' : '';
             });
         }
-
         window.reproducirCancion = reproducirCancion;
     }
 
@@ -1405,7 +957,7 @@
     }
 
     // ================================================================
-    //  EVENTOS DE INTERACCIÓN
+    //  EVENTOS
     // ================================================================
     function onResize() {
         if (!renderer) return;
@@ -1424,7 +976,7 @@
     function onGalaxyClick(event) {
         const target = event.target;
         if (target.closest('#musicPlayer') || target.closest('.mensaje-emergente') || 
-            target.closest('.palabra-clave') || target.closest('#mensajeCentral')) {
+            target.closest('.palabra-clave') || target.closest('.frase') || target.closest('#mensajeCentral')) {
             return;
         }
 
@@ -1458,19 +1010,18 @@
                 div.style.opacity = '0';
             });
 
-            setTimeout(() => {
-                if (div.parentNode) div.remove();
-            }, 2200);
+            setTimeout(() => { if (div.parentNode) div.remove(); }, 2200);
         }
     }
 
     // ================================================================
-    //  ANIMACIÓN PRINCIPAL
+    //  ANIMACIÓN PRINCIPAL (Three.js para el corazón + HTML para imágenes)
     // ================================================================
     function animar() {
         requestAnimationFrame(animar);
         tiempo += 0.01;
 
+        // ===== CORAZÓN (Three.js) =====
         const corazon = particulas[0];
         if (corazon) {
             const pulso = 1 + Math.sin(tiempo * 2.5) * 0.04;
@@ -1498,38 +1049,31 @@
             corazon.geometria.attributes.position.needsUpdate = true;
         }
 
-        frasesObjetos.forEach((f) => {
-            f.angulo += f.velocidad;
-            const x = Math.cos(f.angulo) * f.radio;
-            const y = Math.sin(f.angulo) * f.radio * 0.8;
-            const vector = new THREE.Vector3(x, y, 0);
-            vector.project(camera);
-            const px = (vector.x * 0.5 + 0.5) * window.innerWidth;
-            const py = (-vector.y * 0.5 + 0.5) * window.innerHeight;
-            f.elemento.style.transform = `translate(${px - f.elemento.offsetWidth/2}px, ${py - f.elemento.offsetHeight/2}px)`;
-            f.elemento.style.opacity = vector.z < 1 ? '1' : '0';
-        });
-
-        palabrasClaveObjetos.forEach((p) => {
-            const vector = new THREE.Vector3(p.x, p.y, 0);
-            vector.project(camera);
-            const px = (vector.x * 0.5 + 0.5) * window.innerWidth;
-            const py = (-vector.y * 0.5 + 0.5) * window.innerHeight;
-            p.elemento.style.transform = `translate(${px - p.elemento.offsetWidth/2}px, ${py - p.elemento.offsetHeight/2}px)`;
-            p.elemento.style.opacity = vector.z < 1 ? '1' : '0';
-        });
+        // ===== IMÁGENES FLOTANDO (HTML) =====
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const time = Date.now() / 1000;
 
         imagenesOrbitando.forEach((img) => {
-            img.angulo += img.velocidad;
-            const x = Math.cos(img.angulo) * img.radio;
-            const y = Math.sin(img.angulo) * img.radio * 0.7;
-            const z = Math.sin(img.angulo * 0.7) * 1.2;
-            img.mesh.position.set(x, y, z);
-            img.borde.position.set(x, y, z + 0.01);
-            img.mesh.lookAt(camera.position);
-            img.borde.lookAt(camera.position);
+            const angulo = img.angulo + time * img.velocidad;
+            const x = Math.cos(angulo) * img.radio;
+            const y = Math.sin(angulo) * img.radio * 0.7;
+            img.elemento.style.transform = `translate(${x}px, ${y}px)`;
+            img.elemento.style.left = centerX + 'px';
+            img.elemento.style.top = centerY + 'px';
         });
 
+        // ===== FRASES (HTML) =====
+        frasesObjetos.forEach((f) => {
+            const angulo = f.angulo + time * 0.003;
+            const x = Math.cos(angulo) * f.radio;
+            const y = Math.sin(angulo) * f.radio * 0.7;
+            f.elemento.style.transform = `translate(${x}px, ${y}px)`;
+            f.elemento.style.left = centerX + 'px';
+            f.elemento.style.top = centerY + 'px';
+        });
+
+        // ===== EFECTO VIENTO (partículas del corazón se apartan del mouse) =====
         if (particulas.length > 0) {
             const pos = particulas[0].geometria.attributes.position.array;
             const targetX = mouse.x * 0.3;
